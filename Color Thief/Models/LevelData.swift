@@ -6,18 +6,20 @@ enum LevelData {
     
     static let levelsPerWorld = 5
     
-    /// (world, friend keys in order, palette) — objectCount is each friend's region count
-    private static let worlds: [(name: String, friends: [String], palette: [UIColor])] = [
-        ("Forest", ["butterfly", "flower", "mushroom", "ladybug", "butterfly"],
-                   [.grassGreen, .sunshineYellow, .coralRed, .skyBlue, .hotPink]),
-        ("Farm",   ["barn", "pig", "chick", "flower", "pig"],
-                   [.coralRed, .sunshineYellow, .grassGreen, .hotPink, .skyBlue]),
-        ("Ocean",  ["fish", "boat", "whale", "fish", "boat"],
-                   [.skyBlue, .mintGreen, .coralRed, .sunshineYellow, .lavender]),
-        ("Sky",    ["sun", "balloon", "rocket", "sun", "balloon"],
-                   [.sunshineYellow, .skyBlue, .coralRed, .lavender, .mintGreen]),
-        ("Garden", ["ladybug", "mushroom", "flower", "butterfly", "rocket"],
-                   [.hotPink, .grassGreen, .sunshineYellow, .lavender, .skyBlue])
+    /// Per world: a pool of friends (hand-made keys and generator categories) and a palette.
+    /// Each level draws from its world's pool with a seeded RNG, so level N is always the same
+    /// character but no two levels look alike. Garden is the "anything goes" world.
+    private static let worlds: [(name: String, pool: [String], palette: [UIColor])] = [
+        ("Forest", ["gen:tree", "gen:animal", "butterfly", "gen:tree", "mushroom", "gen:animal", "ladybug", "flower"],
+                   [.grassGreen, .sunshineYellow, .coralRed, .skyBlue, .hotPink, .lavender]),
+        ("Farm",   ["gen:animal", "gen:house", "barn", "pig", "gen:car", "chick", "gen:house", "gen:animal"],
+                   [.coralRed, .sunshineYellow, .grassGreen, .hotPink, .skyBlue, .lavender]),
+        ("Ocean",  ["gen:fish", "gen:fish", "gen:fish", "boat", "whale", "gen:fish", "fish"],
+                   [.skyBlue, .mintGreen, .coralRed, .sunshineYellow, .lavender, .hotPink]),
+        ("Sky",    ["gen:sky", "gen:sky", "balloon", "rocket", "sun", "gen:sky", "gen:sky"],
+                   [.sunshineYellow, .skyBlue, .coralRed, .lavender, .mintGreen, .hotPink]),
+        ("Garden", ["gen:fish", "gen:animal", "gen:house", "gen:car", "gen:tree", "gen:sky", "butterfly", "ladybug"],
+                   [.hotPink, .grassGreen, .sunshineYellow, .lavender, .skyBlue, .coralRed])
     ]
     
     static var freeLevelCount: Int { worlds.count * levelsPerWorld }
@@ -26,10 +28,14 @@ enum LevelData {
         let full = PlayerStats.hasFullGame
         var levels: [Level] = []
         for world in worlds {
-            for (i, key) in world.friends.enumerated() {
+            for _ in 0..<levelsPerWorld {
                 let id = levels.count + 1
-                // Rotate the palette so the first (default) orb differs level to level
-                let colors = Array(world.palette[i...] + world.palette[..<i])
+                var rng = SeededRNG(seed: id * 104_729 + 17)
+                let entry = world.pool[Int(rng.next() % UInt64(world.pool.count))]
+                // Generator entries get a per-level seed so the same category still varies
+                let key = entry.hasPrefix("gen:") ? "\(entry):\(id)" : entry
+                let shift = Int(rng.next() % UInt64(world.palette.count))
+                let colors = Array(world.palette[shift...] + world.palette[..<shift])
                 levels.append(Level(id: id, worldName: world.name,
                                     objectCount: FriendArt.friend(for: key).regions.count,
                                     availableColors: colors,

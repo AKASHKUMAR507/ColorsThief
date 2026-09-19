@@ -32,6 +32,13 @@ struct Friend {
 enum FriendArt {
     
     static func friend(for key: String) -> Friend {
+        // Procedural friends: "gen:<category>:<seed>"
+        if key.hasPrefix("gen:") {
+            let parts = key.split(separator: ":")
+            if parts.count == 3, let category = FriendGenerator.Category(rawValue: String(parts[1])), let seed = Int(parts[2]) {
+                return FriendGenerator.make(category: category, seed: seed)
+            }
+        }
         switch key {
         case "butterfly": return butterfly
         case "flower":    return flower
