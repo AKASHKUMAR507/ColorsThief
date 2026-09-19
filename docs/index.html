@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Color Thief — Bring the world back to life!</title>
+<meta name="description" content="Color Thief is a joyful colouring game for ages 2–6. Tap the grey world and bring the colour back.">
+<link rel="icon" href="icon.png">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;700&display=swap">
+<style>
+  :root { --bg:#FFF9F0; --ink:#1A1A2E; --muted:#5A5A72; --yellow:#FFD23F; --green:#4CD964; --sky:#54C8FF; }
+  * { box-sizing:border-box; }
+  body { margin:0; min-height:100vh; background:
+      radial-gradient(circle at 20% 15%, #FFE9B8 0 3px, transparent 4px) 0 0/28px 28px, var(--bg);
+      color:var(--ink); font-family:'Nunito',-apple-system,sans-serif; display:flex; align-items:center; justify-content:center; padding:24px; }
+  .card { background:#fff; border:4px solid var(--ink); border-radius:36px; box-shadow:0 8px 0 var(--ink); max-width:520px; width:100%; padding:36px 28px 30px; text-align:center; }
+  .icon { width:132px; height:132px; border-radius:30px; border:4px solid var(--ink); box-shadow:0 6px 0 var(--ink); }
+  h1 { font-family:'Fredoka One',cursive; font-size:44px; margin:20px 0 4px; color:var(--yellow); -webkit-text-stroke:2px var(--ink); text-shadow:0 4px 0 var(--ink); letter-spacing:.5px; }
+  .tag { font-weight:700; font-size:18px; margin:0 0 6px; }
+  .sub { color:var(--muted); font-size:15px; margin:0 0 26px; line-height:1.5; }
+  .btn { display:inline-block; font-family:'Fredoka One',cursive; font-size:18px; text-decoration:none; color:var(--ink);
+         padding:14px 26px; border-radius:999px; border:3px solid var(--ink); box-shadow:0 6px 0 var(--ink); margin:6px; transition:transform .08s, box-shadow .08s; }
+  .btn:active { transform:translateY(4px); box-shadow:0 2px 0 var(--ink); }
+  .btn.primary { background:var(--green); color:#fff; }
+  .btn.secondary { background:#fff; }
+  .pills { display:flex; flex-wrap:wrap; justify-content:center; gap:8px; margin-top:22px; }
+  .pill { background:#FFF3B0; border:2px solid var(--ink); border-radius:999px; padding:4px 12px; font-size:13px; font-weight:700; }
+  footer { margin-top:24px; color:var(--muted); font-size:13px; }
+  footer a { color:#005A80; }
+</style>
+</head>
+<body>
+  <main class="card">
+    <img class="icon" src="icon.png" alt="Color Thief app icon">
+    <h1>Color Thief</h1>
+    <p class="tag">Bring the world back to life!</p>
+    <p class="sub">A joyful colouring game for little artists aged 2–6.<br>Tap the grey world and watch the colour come back.</p>
+
+    <a class="btn primary" href="#" aria-disabled="true" title="Coming soon to the App Store">▶ Coming soon</a>
+    <a class="btn secondary" href="privacy.html">Privacy Policy</a>
+
+    <div class="pills">
+      <span class="pill">Made for Kids</span>
+      <span class="pill">No ads</span>
+      <span class="pill">No data collected</span>
+      <span class="pill">Offline play</span>
+    </div>
+
+    <footer>
+      Support: <a href="mailto:[support email]">[support email]</a><br>
+      © 2026 [Your name / studio]
+    </footer>
+  </main>
+</body>
+</html>
