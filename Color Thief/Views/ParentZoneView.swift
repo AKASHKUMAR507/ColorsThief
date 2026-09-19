@@ -5,6 +5,7 @@ struct ParentZoneView: View {
     
     var onClose: () -> Void
     @ObservedObject private var store = StoreKitManager.shared
+    @State private var showPrivacy = false
     private var hasFullGame: Bool { store.hasFullGame }
     
     var body: some View {
@@ -66,7 +67,7 @@ struct ParentZoneView: View {
                             .multilineTextAlignment(.center)
                     }
                     
-                    Link(destination: AppConfig.privacyPolicyURL) {
+                    Button { showPrivacy = true } label: {
                         HStack(spacing: 8) {
                             Image(systemName: "hand.raised.fill").font(.system(size: 14, weight: .bold))
                             Text("Privacy Policy").font(AppFont.body(16))
@@ -83,5 +84,8 @@ struct ParentZoneView: View {
             }
         }
         .onAppear { store.lastError = nil }
+        .fullScreenCover(isPresented: $showPrivacy) {
+            PrivacyPolicyView(onClose: { showPrivacy = false })
+        }
     }
 }
