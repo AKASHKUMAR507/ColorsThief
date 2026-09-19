@@ -1,0 +1,35 @@
+{
+  "identifier" : "C0L0R7H1EF0000000000000000000001",
+  "nonRenewingSubscriptions" : [],
+  "products" : [
+    {
+      "displayPrice" : "1.99",
+      "familyShareable" : true,
+      "internalID" : "C0L0R7H1EF0000000000000000000002",
+      "localizations" : [
+        {
+          "description" : "Unlock every level and world, forever.",
+          "displayName" : "Full Game",
+          "locale" : "en_US"
+        }
+      ],
+      "productID" : "com.akash.colorthief.fullgame",
+      "referenceName" : "Full Game",
+      "type" : "NonConsumable"
+    }
+  ],
+  "settings" : {
+    "_applicationInternalID" : "0",
+    "_developerTeamID" : "",
+    "_failTransactionsEnabled" : false,
+    "_lastSynchronizedDate" : 0,
+    "_locale" : "en_US",
+    "_storefront" : "USA",
+    "_storeKitErrors" : []
+  },
+  "subscriptionGroups" : [],
+  "version" : {
+    "major" : 4,
+    "minor" : 0
+  }
+}

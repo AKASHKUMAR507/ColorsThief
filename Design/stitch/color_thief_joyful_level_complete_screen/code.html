@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/>
+<title>Color Thief — Level Complete!</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700&amp;family=Nunito:wght@800;900&amp;display=swap" rel="stylesheet"/>
+<style>
+    body {
+      font-family: 'Fredoka', 'Nunito', cursive, sans-serif;
+      user-select: none;
+      -webkit-user-select: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .font-parent {
+      font-family: 'Nunito', sans-serif;
+    }
+
+    @keyframes floatGentle {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-7px) rotate(1deg); }
+    }
+
+    @keyframes jumpJoy {
+      0%, 100% { transform: translateY(0) scale(1, 1) rotate(0deg); }
+      35% { transform: translateY(-24px) scale(1.08, 0.94) rotate(-5deg); }
+      65% { transform: translateY(-10px) scale(0.98, 1.03) rotate(4deg); }
+      85% { transform: translateY(0px) scale(1.04, 0.96); }
+    }
+
+    @keyframes starPulsePop {
+      0% { transform: scale(0) rotate(-40deg); opacity: 0; }
+      60% { transform: scale(1.22) rotate(10deg); opacity: 1; }
+      80% { transform: scale(0.95) rotate(-3deg); }
+      100% { transform: scale(1) rotate(0deg); opacity: 1; }
+    }
+
+    @keyframes confettiFlutter {
+      0% {
+        transform: translateY(-25px) rotate(0deg) scale(0.8);
+        opacity: 0;
+      }
+      15% { opacity: 1; }
+      85% { opacity: 0.95; }
+      100% {
+        transform: translateY(105vh) rotate(540deg) scale(1.1);
+        opacity: 0;
+      }
+    }
+
+    @keyframes ctaBounce {
+      0%, 100% { transform: translateY(0) scale(1); }
+      50% { transform: translateY(-5px) scale(1.02); }
+    }
+
+    @keyframes sparkleSpin {
+      0%, 100% { transform: scale(0.7) rotate(0deg); opacity: 0.4; }
+      50% { transform: scale(1.2) rotate(90deg); opacity: 1; }
+    }
+
+    .animate-float {
+      animation: floatGentle 4.5s ease-in-out infinite;
+    }
+
+    .animate-jump {
+      animation: jumpJoy 2.4s cubic-bezier(0.28, 0.84, 0.42, 1) infinite;
+    }
+
+    .animate-cta-bounce {
+      animation: ctaBounce 2s ease-in-out infinite;
+    }
+
+    .animate-sparkle {
+      animation: sparkleSpin 2s ease-in-out infinite;
+    }
+
+    .pop-star-1 {
+      animation: starPulsePop 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+      animation-delay: 0.15s;
+    }
+    .pop-star-2 {
+      animation: starPulsePop 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+      animation-delay: 0.35s;
+    }
+    .pop-star-3 {
+      animation: starPulsePop 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+      animation-delay: 0.55s;
+    }
+
+    .cartoon-card-shadow {
+      box-shadow: 0 16px 0px rgba(26, 26, 46, 0.15), 0 28px 45px rgba(255, 107, 107, 0.22);
+    }
+
+    .btn-3d-yellow {
+      box-shadow: 0 9px 0 #e09b00, 0 16px 24px rgba(255, 210, 63, 0.45);
+    }
+    .btn-3d-yellow:active {
+      transform: translateY(6px);
+      box-shadow: 0 3px 0 #e09b00, 0 8px 12px rgba(255, 210, 63, 0.3);
+    }
+
+    .btn-3d-circle {
+      box-shadow: 0 6px 0 #1A1A2E, 0 10px 18px rgba(26, 26, 46, 0.2);
+    }
+    .btn-3d-circle:active {
+      transform: translateY(4px);
+      box-shadow: 0 2px 0 #1A1A2E, 0 6px 10px rgba(26, 26, 46, 0.15);
+    }
+
+    .text-stroke-navy {
+      -webkit-text-stroke: 3.5px #1A1A2E;
+      paint-order: stroke fill;
+    }
+  </style>
+</head>
+<body class="bg-[#1A1A2E] m-0 p-0 flex justify-center items-center min-h-screen overflow-hidden">
+<!-- iPhone Target Screen Canvas (390px width, 9:16 aspect ratio) -->
+<main class="relative w-full max-w-[390px] h-[100dvh] max-h-[844px] overflow-hidden bg-[#54C8FF] flex flex-col justify-between select-none shadow-[0_0_60px_rgba(0,0,0,0.6)]">
+<!-- 100% RESTORED VIBRANT STORYBOOK WORLD BACKGROUND -->
+<div class="absolute inset-0 w-full h-full pointer-events-none overflow-hidden">
+<!-- Sky Gradient -->
+<div class="absolute inset-0 bg-gradient-to-b from-[#54C8FF] via-[#75D5FF] to-[#DDF4FF]"></div>
+<!-- Vibrant Celebration Rainbow -->
+<div class="absolute -top-10 -left-20 w-[420px] h-[340px] opacity-75 pointer-events-none">
+<svg class="w-full h-full" viewbox="0 0 300 240">
+<path d="M 20 220 A 130 130 0 0 1 280 220" fill="none" stroke="#FF4081" stroke-linecap="round" stroke-width="12"></path>
+<path d="M 32 220 A 118 118 0 0 1 268 220" fill="none" stroke="#FFD23F" stroke-linecap="round" stroke-width="12"></path>
+<path d="M 44 220 A 106 106 0 0 1 256 220" fill="none" stroke="#4CD964" stroke-linecap="round" stroke-width="12"></path>
+<path d="M 56 220 A 94 94 0 0 1 244 220" fill="none" stroke="#54C8FF" stroke-linecap="round" stroke-width="12"></path>
+<path d="M 68 220 A 82 82 0 0 1 232 220" fill="none" stroke="#C77DFF" stroke-linecap="round" stroke-width="12"></path>
+</svg>
+</div>
+<!-- Cheerful Smiling Cartoon Sun -->
+<div class="absolute -top-6 -right-6 w-36 h-36">
+<svg class="w-full h-full drop-shadow-md" viewbox="0 0 120 120">
+<!-- Sun Rays -->
+<g stroke="#FF9800" stroke-linecap="round" stroke-width="5">
+<line x1="60" x2="60" y1="8" y2="20"></line>
+<line x1="60" x2="60" y1="100" y2="112"></line>
+<line x1="8" x2="20" y1="60" y2="60"></line>
+<line x1="100" x2="112" y1="60" y2="60"></line>
+<line x1="24" x2="33" y1="24" y2="33"></line>
+<line x1="87" x2="96" y1="87" y2="96"></line>
+<line x1="24" x2="33" y1="96" y2="87"></line>
+<line x1="87" x2="96" y1="33" y2="24"></line>
+</g>
+<!-- Sun Face -->
+<circle cx="60" cy="60" fill="#FFD23F" r="38" stroke="#1A1A2E" stroke-width="4"></circle>
+<!-- Cheeks -->
+<circle cx="43" cy="68" fill="#FF6B6B" opacity="0.6" r="6"></circle>
+<circle cx="77" cy="68" fill="#FF6B6B" opacity="0.6" r="6"></circle>
+<!-- Eyes -->
+<ellipse cx="48" cy="54" fill="#1A1A2E" rx="4" ry="5"></ellipse>
+<ellipse cx="72" cy="54" fill="#1A1A2E" rx="4" ry="5"></ellipse>
+<circle cx="46" cy="52" fill="#FFFFFF" r="1.5"></circle>
+<circle cx="70" cy="52" fill="#FFFFFF" r="1.5"></circle>
+<!-- Smile -->
+<path d="M 50 68 Q 60 78 70 68" fill="none" stroke="#1A1A2E" stroke-linecap="round" stroke-width="3.5"></path>
+</svg>
+</div>
+<!-- Happy Cartoon Puffy Clouds -->
+<div class="absolute top-12 left-4 w-28 h-14 animate-float">
+<svg class="w-full h-full drop-shadow-sm" viewbox="0 0 100 50">
+<path d="M20,40 Q10,40 10,30 Q10,20 22,20 Q26,8 42,10 Q54,2 68,12 Q82,10 84,24 Q95,24 95,34 Q95,40 85,40 Z" fill="#FFFFFF" stroke="#1A1A2E" stroke-width="3"></path>
+<circle cx="42" cy="27" fill="#1A1A2E" r="2"></circle>
+<circle cx="56" cy="27" fill="#1A1A2E" r="2"></circle>
+<path d="M 46 32 Q 49 35 52 32" fill="none" stroke="#1A1A2E" stroke-linecap="round" stroke-width="2"></path>
+</svg>
+</div>
+<div class="absolute top-24 right-12 w-24 h-12 animate-float" style="animation-delay: 2s;">
+<svg class="w-full h-full drop-shadow-sm" viewbox="0 0 100 50">
+<path d="M20,40 Q10,40 10,30 Q10,20 22,20 Q26,8 42,10 Q54,2 68,12 Q82,10 84,24 Q95,24 95,34 Q95,40 85,40 Z" fill="#FFFFFF" stroke="#1A1A2E" stroke-width="3"></path>
+</svg>
+</div>
+<!-- Distant Soft Hills -->
+<div class="absolute top-[48%] -left-12 -right-12 h-64 bg-[#76E587] rounded-t-[100%] border-t-4 border-[#1A1A2E]/20"></div>
+<!-- Main Rolling Cartoon Hills (Grass Green #4CD964) -->
+<div class="absolute top-[58%] -left-20 -right-16 h-80 bg-[#4CD964] rounded-t-[90%] border-t-4 border-[#1A1A2E]"></div>
+<div class="absolute top-[68%] -left-10 -right-20 h-72 bg-[#3BC253] rounded-t-[75%] border-t-4 border-[#1A1A2E]"></div>
+<!-- Storybook Flowers (Coral Red #FF6B6B & Lavender #C77DFF) -->
+<div class="absolute bottom-6 left-5 flex items-end gap-3 z-0">
+<!-- Coral Red Flower -->
+<svg class="w-9 h-12" viewbox="0 0 40 55">
+<line stroke="#1A1A2E" stroke-linecap="round" stroke-width="3.5" x1="20" x2="20" y1="28" y2="52"></line>
+<ellipse cx="14" cy="40" fill="#4CD964" rx="6" ry="3" stroke="#1A1A2E" stroke-width="2.5" transform="rotate(-30 14 40)"></ellipse>
+<circle cx="20" cy="20" fill="#FF6B6B" r="14" stroke="#1A1A2E" stroke-width="3"></circle>
+<circle cx="20" cy="20" fill="#FFD23F" r="6" stroke="#1A1A2E" stroke-width="2.5"></circle>
+</svg>
+<!-- Lavender Flower -->
+<svg class="w-8 h-14" viewbox="0 0 40 60">
+<line stroke="#1A1A2E" stroke-linecap="round" stroke-width="3.5" x1="20" x2="20" y1="26" y2="56"></line>
+<circle cx="20" cy="18" fill="#C77DFF" r="13" stroke="#1A1A2E" stroke-width="3"></circle>
+<circle cx="20" cy="18" fill="#FFFFFF" r="5" stroke="#1A1A2E" stroke-width="2.5"></circle>
+</svg>
+</div>
+<div class="absolute bottom-6 right-6 flex items-end gap-3 z-0">
+<!-- Lavender Flower -->
+<svg class="w-8 h-11" viewbox="0 0 40 50">
+<line stroke="#1A1A2E" stroke-linecap="round" stroke-width="3.5" x1="20" x2="20" y1="24" y2="48"></line>
+<circle cx="20" cy="16" fill="#C77DFF" r="12" stroke="#1A1A2E" stroke-width="3"></circle>
+<circle cx="20" cy="16" fill="#FFD23F" r="5" stroke="#1A1A2E" stroke-width="2.5"></circle>
+</svg>
+<!-- Coral Flower -->
+<svg class="w-10 h-14" viewbox="0 0 40 60">
+<line stroke="#1A1A2E" stroke-linecap="round" stroke-width="3.5" x1="20" x2="20" y1="28" y2="58"></line>
+<ellipse cx="26" cy="42" fill="#4CD964" rx="6" ry="3" stroke="#1A1A2E" stroke-width="2.5" transform="rotate(30 26 42)"></ellipse>
+<circle cx="20" cy="20" fill="#FF6B6B" r="14" stroke="#1A1A2E" stroke-width="3"></circle>
+<circle cx="20" cy="20" fill="#FFD23F" r="6" stroke="#1A1A2E" stroke-width="2.5"></circle>
+</svg>
+</div>
+</div>
+<!-- SCREEN-WIDE CELEBRATORY CONFETTI & SPARKLES -->
+<div class="absolute inset-0 pointer-events-none overflow-hidden z-10">
+<!-- Chunky Pill and Square Confetti -->
+<div class="absolute w-5 h-2.5 bg-[#FF4081] rounded-full top-0 left-[6%] border border-[#1A1A2E]" style="animation: confettiFlutter 4.6s linear infinite; animation-delay: 0.1s;"></div>
+<div class="absolute w-4 h-4 bg-[#FFD23F] rounded-lg top-0 left-[18%] border border-[#1A1A2E]" style="animation: confettiFlutter 4.1s linear infinite; animation-delay: 1.1s;"></div>
+<div class="absolute w-5 h-3 bg-[#4CD964] rounded-full top-0 left-[32%] border border-[#1A1A2E]" style="animation: confettiFlutter 5.0s linear infinite; animation-delay: 0.5s;"></div>
+<div class="absolute w-4 h-4 bg-[#C77DFF] rounded-full top-0 left-[48%] border border-[#1A1A2E]" style="animation: confettiFlutter 4.3s linear infinite; animation-delay: 2.0s;"></div>
+<div class="absolute w-6 h-2.5 bg-[#FF6B6B] rounded-full top-0 left-[62%] border border-[#1A1A2E]" style="animation: confettiFlutter 3.8s linear infinite; animation-delay: 0.3s;"></div>
+<div class="absolute w-4 h-3.5 bg-[#54C8FF] rounded-md top-0 left-[76%] border border-[#1A1A2E]" style="animation: confettiFlutter 4.8s linear infinite; animation-delay: 1.6s;"></div>
+<div class="absolute w-5 h-3 bg-[#FF9800] rounded-full top-0 left-[88%] border border-[#1A1A2E]" style="animation: confettiFlutter 4.2s linear infinite; animation-delay: 0.8s;"></div>
+<!-- Secondary Stream -->
+<div class="absolute w-3.5 h-3.5 bg-[#FFD23F] rounded-full top-0 left-[12%] border border-[#1A1A2E]" style="animation: confettiFlutter 5.2s linear infinite; animation-delay: 2.4s;"></div>
+<div class="absolute w-5 h-2.5 bg-[#C77DFF] rounded-full top-0 left-[40%] border border-[#1A1A2E]" style="animation: confettiFlutter 4.5s linear infinite; animation-delay: 3.1s;"></div>
+<div class="absolute w-4 h-4 bg-[#FF4081] rounded-lg top-0 left-[70%] border border-[#1A1A2E]" style="animation: confettiFlutter 4.9s linear infinite; animation-delay: 2.8s;"></div>
+<div class="absolute w-3 h-3 bg-[#4CD964] rounded-full top-0 left-[84%] border border-[#1A1A2E]" style="animation: confettiFlutter 3.9s linear infinite; animation-delay: 3.5s;"></div>
+<!-- Celebratory Floating Twinkle Sparkles -->
+<div class="absolute top-[26%] left-[6%] w-7 h-7 text-[#FFD23F] animate-sparkle">
+<svg fill="currentColor" stroke="#1A1A2E" stroke-width="1.5" viewbox="0 0 24 24">
+<path d="M12,2 L14,9 L21,12 L14,15 L12,22 L10,15 L3,12 L10,9 Z"></path>
+</svg>
+</div>
+<div class="absolute top-[20%] right-[8%] w-8 h-8 text-[#FF4081] animate-sparkle" style="animation-delay: 0.8s;">
+<svg fill="currentColor" stroke="#1A1A2E" stroke-width="1.5" viewbox="0 0 24 24">
+<path d="M12,2 L14,9 L21,12 L14,15 L12,22 L10,15 L3,12 L10,9 Z"></path>
+</svg>
+</div>
+<div class="absolute top-[62%] right-[5%] w-6 h-6 text-[#FFD23F] animate-sparkle" style="animation-delay: 1.4s;">
+<svg fill="currentColor" stroke="#1A1A2E" stroke-width="1.5" viewbox="0 0 24 24">
+<path d="M12,2 L14,9 L21,12 L14,15 L12,22 L10,15 L3,12 L10,9 Z"></path>
+</svg>
+</div>
+<div class="absolute top-[68%] left-[8%] w-7 h-7 text-[#C77DFF] animate-sparkle" style="animation-delay: 0.4s;">
+<svg fill="currentColor" stroke="#1A1A2E" stroke-width="1.5" viewbox="0 0 24 24">
+<path d="M12,2 L14,9 L21,12 L14,15 L12,22 L10,15 L3,12 L10,9 Z"></path>
+</svg>
+</div>
+</div>
+<!-- TOP HEADER / SAFE AREA (44px Safe Padding) -->
+<header class="relative z-20 pt-11 px-5 flex items-center justify-between w-full">
+<!-- Chunky Home Button (Circular >60px, Toddler-Proof) -->
+<button aria-label="Level Map Home" class="w-[62px] h-[62px] bg-white rounded-full border-4 border-[#1A1A2E] btn-3d-circle flex items-center justify-center transition-transform active:scale-90">
+<svg class="w-8 h-8 text-[#1A1A2E]" fill="currentColor" viewbox="0 0 24 24">
+<path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"></path>
+</svg>
+</button>
+<!-- Chunky Level Badge -->
+<div class="h-12 px-5 bg-white rounded-full border-4 border-[#1A1A2E] shadow-[0_4px_0_#1A1A2E] flex items-center justify-center gap-2">
+<span class="w-3.5 h-3.5 rounded-full bg-[#4CD964] border-2 border-[#1A1A2E]"></span>
+<span class="text-[#1A1A2E] font-bold text-lg tracking-wider font-parent">LEVEL 3</span>
+</div>
+<!-- Chunky Sound Button (>60px) -->
+<button aria-label="Sound Toggle" class="w-[62px] h-[62px] bg-white rounded-full border-4 border-[#1A1A2E] btn-3d-circle flex items-center justify-center transition-transform active:scale-90">
+<svg class="w-8 h-8 text-[#1A1A2E]" fill="currentColor" viewbox="0 0 24 24">
+<path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"></path>
+</svg>
+</button>
+</header>
+<!-- CENTRAL VICTORY CARD CONTAINER -->
+<section class="relative z-20 flex-1 flex items-center justify-center px-4 my-auto pt-6">
+<!-- Rounded White Card Container (2.5rem radius, thick 4px #1A1A2E border) -->
+<div class="relative w-full max-w-[340px] bg-white rounded-[2.5rem] border-4 border-[#1A1A2E] cartoon-card-shadow px-5 pt-12 pb-6 flex flex-col items-center text-center">
+<!-- COLOR THIEF CHARACTER (Leaping happily on top with magical paintbrush) -->
+<div class="absolute -top-20 left-1/2 -translate-x-1/2 w-36 h-36 flex items-center justify-center pointer-events-none">
+<!-- Character Glow Aura -->
+<div class="absolute inset-2 bg-[#FFD23F]/40 rounded-full blur-lg animate-pulse"></div>
+<!-- The Joyful Mascot -->
+<div class="relative w-32 h-32 animate-jump">
+<svg class="w-full h-full drop-shadow-[0_8px_10px_rgba(26,26,46,0.3)]" viewbox="0 0 140 140">
+<!-- Magical Rainbow Paintbrush held in right hand -->
+<g transform="translate(90, 16) rotate(32)">
+<!-- Brush Handle -->
+<rect fill="#FF9800" height="34" rx="4" stroke="#1A1A2E" stroke-width="3" width="8" x="10" y="32"></rect>
+<!-- Metal Ferrule -->
+<rect fill="#E2E8F0" height="10" rx="2" stroke="#1A1A2E" stroke-width="3" width="12" x="8" y="24"></rect>
+<!-- Brush Bristles Loaded with Hot Pink Paint -->
+<path d="M8,24 C8,10 14,2 14,2 C14,2 20,10 20,24 Z" fill="#FF4081" stroke="#1A1A2E" stroke-width="3"></path>
+<!-- Paint Tip Highlight -->
+<circle cx="14" cy="8" fill="#FFFFFF" r="3"></circle>
+<!-- Magic Paint Splashes flying from brush -->
+<circle cx="25" cy="-2" fill="#54C8FF" r="3.5" stroke="#1A1A2E" stroke-width="2"></circle>
+<circle cx="4" cy="-4" fill="#FFD23F" r="2.5" stroke="#1A1A2E" stroke-width="2"></circle>
+<circle cx="14" cy="-8" fill="#4CD964" r="3" stroke="#1A1A2E" stroke-width="2"></circle>
+</g>
+<!-- Left Arm (Waving cheerfully) -->
+<path d="M 38 68 Q 20 54 22 42" fill="none" stroke="#1A1A2E" stroke-linecap="round" stroke-width="8"></path>
+<circle cx="22" cy="42" fill="#FFD23F" r="7" stroke="#1A1A2E" stroke-width="3"></circle>
+<!-- Right Arm (Griping paintbrush) -->
+<path d="M 94 68 Q 106 58 102 46" fill="none" stroke="#1A1A2E" stroke-linecap="round" stroke-width="8"></path>
+<circle cx="102" cy="46" fill="#FFD23F" r="7" stroke="#1A1A2E" stroke-width="3"></circle>
+<!-- Main Round Body (Sunshine Yellow #FFD23F) -->
+<ellipse cx="68" cy="74" fill="#FFD23F" rx="42" ry="39" stroke="#1A1A2E" stroke-width="4"></ellipse>
+<!-- Shiny Gloss Highlight on Head -->
+<ellipse cx="50" cy="50" fill="#FFFFFF" opacity="0.65" rx="14" ry="7" transform="rotate(-25 50 50)"></ellipse>
+<circle cx="70" cy="45" fill="#FFFFFF" opacity="0.75" r="3"></circle>
+<!-- Big Rosy Blush Cheeks (Coral Pink) -->
+<ellipse cx="42" cy="82" fill="#FF6B6B" opacity="0.8" rx="8" ry="5.5"></ellipse>
+<ellipse cx="94" cy="82" fill="#FF6B6B" opacity="0.8" rx="8" ry="5.5"></ellipse>
+<!-- Glossy Joyful Cartoon Eyes -->
+<ellipse cx="52" cy="67" fill="#1A1A2E" rx="7.5" ry="9.5"></ellipse>
+<ellipse cx="84" cy="67" fill="#1A1A2E" rx="7.5" ry="9.5"></ellipse>
+<!-- Gloss Circles -->
+<circle cx="49" cy="63" fill="#FFFFFF" r="3.5"></circle>
+<circle cx="55" cy="71" fill="#FFFFFF" r="1.8"></circle>
+<circle cx="81" cy="63" fill="#FFFFFF" r="3.5"></circle>
+<circle cx="87" cy="71" fill="#FFFFFF" r="1.8"></circle>
+<!-- Big Happy Open Smile -->
+<path d="M 52 82 Q 68 102 84 82" fill="#FF4081" stroke="#1A1A2E" stroke-linecap="round" stroke-width="4"></path>
+<!-- Cute Little White Tooth -->
+<path d="M 62 82 Q 68 87 74 82" fill="#FFFFFF" stroke="#1A1A2E" stroke-width="2.5"></path>
+<!-- Little Artist Beret on Head (Sky Blue with Pink Pom) -->
+<g transform="translate(48, 27) rotate(-15)">
+<ellipse cx="20" cy="10" fill="#54C8FF" rx="20" ry="8" stroke="#1A1A2E" stroke-width="3"></ellipse>
+<circle cx="20" cy="2" fill="#FF4081" r="4" stroke="#1A1A2E" stroke-width="2.5"></circle>
+</g>
+<!-- Happy Kicking Feet -->
+<ellipse cx="52" cy="112" fill="#FF9800" rx="10" ry="6.5" stroke="#1A1A2E" stroke-width="3" transform="rotate(-15 52 112)"></ellipse>
+<ellipse cx="84" cy="112" fill="#FF9800" rx="10" ry="6.5" stroke="#1A1A2E" stroke-width="3" transform="rotate(15 84 112)"></ellipse>
+</svg>
+</div>
+</div>
+<!-- HEADLINE: Chunky Fredoka Bubbly Text -->
+<h1 class="text-[34px] leading-tight font-bold text-[#FFD23F] text-stroke-navy tracking-wide mb-1 select-none">
+          YOU DID IT!
+        </h1>
+<!-- SUBTITLE: Toddler Praise & Status -->
+<div class="inline-flex items-center gap-1.5 px-3 py-1 bg-[#F5F2FF] rounded-full border-2 border-[#1A1A2E] mb-5">
+<span class="w-2.5 h-2.5 rounded-full bg-[#4CD964] border border-[#1A1A2E]"></span>
+<p class="text-[#1A1A2E] font-extrabold text-[18px] tracking-wide font-parent">
+            World Restored! 100%
+          </p>
+</div>
+<!-- 3 GIANT CHUNKY GOLD STARS (>50px each, Sunshine Yellow #FFD23F with #FF9800 outlines & gloss) -->
+<div class="flex items-end justify-center gap-3 w-full mb-6">
+<!-- STAR 1 (Left - 56px) -->
+<div class="pop-star-1 flex flex-col items-center">
+<div class="w-[58px] h-[58px] relative flex items-center justify-center">
+<svg class="w-full h-full filter drop-shadow-[0_4px_0_#1A1A2E] transform -rotate-12" viewbox="0 0 100 100">
+<polygon fill="#FFD23F" points="50,6 64,36 96,38 72,62 80,94 50,77 20,94 28,62 4,38 36,36" stroke="#1A1A2E" stroke-linejoin="round" stroke-width="4.5"></polygon>
+<!-- Gloss Highlight Facet -->
+<polygon fill="#FFFFFF" opacity="0.75" points="50,15 60,37 72,39 55,54"></polygon>
+<circle cx="50" cy="50" fill="#FF9800" opacity="0.4" r="7"></circle>
+</svg>
+</div>
+</div>
+<!-- STAR 2 (Center - Hero 76px with celebratory bounce) -->
+<div class="pop-star-2 flex flex-col items-center -mb-2">
+<div class="w-[78px] h-[78px] relative flex items-center justify-center">
+<svg class="w-full h-full filter drop-shadow-[0_6px_0_#1A1A2E]" viewbox="0 0 100 100">
+<polygon fill="#FFD23F" points="50,5 65,35 98,38 73,63 81,95 50,78 19,95 27,63 2,38 35,35" stroke="#1A1A2E" stroke-linejoin="round" stroke-width="5"></polygon>
+<!-- Internal Gold Rim -->
+<polygon fill="#FFE066" opacity="0.85" points="50,12 62,36 86,38 67,58 73,83 50,69 27,83 33,58 14,38 38,36"></polygon>
+<!-- Glossy Sparkle Highlight -->
+<polygon fill="#FFFFFF" opacity="0.85" points="50,16 59,38 75,40 58,56"></polygon>
+<circle cx="48" cy="46" fill="#FF9800" opacity="0.45" r="8"></circle>
+</svg>
+</div>
+</div>
+<!-- STAR 3 (Right - 56px) -->
+<div class="pop-star-3 flex flex-col items-center">
+<div class="w-[58px] h-[58px] relative flex items-center justify-center">
+<svg class="w-full h-full filter drop-shadow-[0_4px_0_#1A1A2E] transform rotate-12" viewbox="0 0 100 100">
+<polygon fill="#FFD23F" points="50,6 64,36 96,38 72,62 80,94 50,77 20,94 28,62 4,38 36,36" stroke="#1A1A2E" stroke-linejoin="round" stroke-width="4.5"></polygon>
+<!-- Gloss Highlight Facet -->
+<polygon fill="#FFFFFF" opacity="0.75" points="50,15 60,37 72,39 55,54"></polygon>
+<circle cx="50" cy="50" fill="#FF9800" opacity="0.4" r="7"></circle>
+</svg>
+</div>
+</div>
+</div>
+<!-- OVERSIZED TACTILE PRIMARY CTA (min height 72px, Fredoka font, thick 4px border, idle bounce) -->
+<button class="w-full h-[74px] min-h-[72px] bg-[#FFD23F] hover:bg-[#FFC820] rounded-full border-4 border-[#1A1A2E] btn-3d-yellow flex items-center justify-center gap-3 transition-transform animate-cta-bounce cursor-pointer group">
+<span class="text-[#1A1A2E] text-[26px] font-bold tracking-wide">
+            KEEP PLAYING!
+          </span>
+<!-- Chunky Play Triangle -->
+<svg class="w-8 h-8 text-[#1A1A2E] group-hover:translate-x-1 transition-transform" fill="currentColor" viewbox="0 0 24 24">
+<path d="M8 5v14l11-7z"></path>
+</svg>
+</button>
+</div>
+</section>
+<!-- BOTTOM ACTIONS & SAFE AREA (44px Safe Margins) -->
+<footer class="relative z-20 pb-10 px-6 flex items-center justify-center gap-5">
+<!-- Chunky Circular Replay Button (>60px, rounded-full, thick outline) -->
+<button aria-label="Replay Level" class="w-[64px] h-[64px] bg-white rounded-full border-4 border-[#1A1A2E] btn-3d-circle flex items-center justify-center transition-transform active:scale-90">
+<svg class="w-8 h-8 text-[#1A1A2E]" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3" viewbox="0 0 24 24">
+<path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
+<path d="M3 3v5h5"></path>
+</svg>
+</button>
+<!-- Chunky Level Progress Dots Indicating World Mastery -->
+<div class="h-[52px] px-5 bg-white/90 rounded-full border-4 border-[#1A1A2E] shadow-[0_4px_0_#1A1A2E] flex items-center gap-2.5">
+<span class="w-4 h-4 rounded-full bg-[#FFD23F] border-2 border-[#1A1A2E]"></span>
+<span class="w-4 h-4 rounded-full bg-[#FFD23F] border-2 border-[#1A1A2E]"></span>
+<span class="w-4 h-4 rounded-full bg-[#4CD964] border-2 border-[#1A1A2E]"></span>
+<span class="w-3.5 h-3.5 rounded-full bg-[#E2E0FC] border-2 border-[#1A1A2E]"></span>
+<span class="w-3.5 h-3.5 rounded-full bg-[#E2E0FC] border-2 border-[#1A1A2E]"></span>
+</div>
+</footer>
+</main>
+</body></html>

@@ -1,0 +1,360 @@
+<!DOCTYPE html><html lang="en" style=""><svg class="inline-defs-container" aria-hidden="true" style="position:absolute;width:0;height:0;overflow:hidden"></svg><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport">
+<title>Color Thief — Splash Screen</title>
+<!-- Google Fonts: Fredoka One / Fredoka -->
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700;800&amp;display=swap" rel="stylesheet">
+<!-- Tailwind CSS v3 with Plugins -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            fredoka: ['Fredoka', 'system-ui', 'sans-serif'],
+          },
+          colors: {
+            cartoon: {
+              navy: '#1A1A2E',
+              outline: '#2D2D44',
+              sun: '#FFD23F',
+              sky: '#54C8FF',
+              grass: '#4CD964',
+              coral: '#FF6B6B',
+              pink: '#FF4081',
+              lavender: '#C77DFF',
+              cream: '#FFF9F0',
+              cloudGrey: '#C8C8D4',
+              hillGrey: '#A8A8B8',
+              slateGrey: '#7E7E94'
+            }
+          },
+          animation: {
+            'bounce-gentle': 'gentleBounce 2.5s ease-in-out infinite',
+            'float-slow': 'floating 3.5s ease-in-out infinite',
+            'wiggle-spin': 'wiggle 2s ease-in-out infinite',
+            'pulse-scale': 'pulseScale 1.8s ease-in-out infinite',
+            'sparkle-twinkle': 'twinkle 1.6s ease-in-out infinite'
+          },
+          keyframes: {
+            gentleBounce: {
+              '0%, 100%': { transform: 'translateY(0)' },
+              '50%': { transform: 'translateY(-8px)' }
+            },
+            floating: {
+              '0%, 100%': { transform: 'translateY(0px) rotate(0deg)' },
+              '50%': { transform: 'translateY(-10px) rotate(2deg)' }
+            },
+            wiggle: {
+              '0%, 100%': { transform: 'rotate(-3deg)' },
+              '50%': { transform: 'rotate(4deg)' }
+            },
+            pulseScale: {
+              '0%, 100%': { transform: 'scale(1)' },
+              '50%': { transform: 'scale(1.05)' }
+            },
+            twinkle: {
+              '0%, 100%': { opacity: '0.4', transform: 'scale(0.85)' },
+              '50%': { opacity: '1', transform: 'scale(1.2) rotate(15deg)' }
+            }
+          }
+        }
+      }
+    }
+  </script>
+<!-- BEGIN: Custom Cartoon Styles -->
+<style data-purpose="cartoon-strokes">
+    /* Saturday-morning cartoon chunky stroke styling */
+    .stroke-bold {
+      stroke: #1A1A2E;
+      stroke-width: 5px;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+    .stroke-medium {
+      stroke: #1A1A2E;
+      stroke-width: 3.5px;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+    .bubble-shadow {
+      box-shadow: 0 10px 0 #1A1A2E;
+    }
+    .bubble-shadow-sm {
+      box-shadow: 0 6px 0 #1A1A2E;
+    }
+    .bubble-shadow-orange {
+      box-shadow: 0 8px 0 #E27D00;
+    }
+  </style>
+<style data-purpose="typography-effects">
+    /* 3D bubbly text effect */
+    .bubbly-title {
+      color: #FFFFFF;
+      text-shadow: 
+        -3px -3px 0 #1A1A2E,
+         3px -3px 0 #1A1A2E,
+        -3px  3px 0 #1A1A2E,
+         3px  3px 0 #1A1A2E,
+         0   8px 0 #1A1A2E,
+        -2px  8px 0 #1A1A2E,
+         2px  8px 0 #1A1A2E,
+         0   12px 14px rgba(26, 26, 46, 0.35);
+    }
+    .highlight-dot {
+      background: radial-gradient(circle at 35% 35%, #ffffff 0%, rgba(255,255,255,0) 70%);
+    }
+  </style>
+<!-- END: Custom Cartoon Styles -->
+</head>
+<body class="bg-[#2D2D3F] flex items-center justify-center min-h-screen p-0 m-0 font-fredoka antialiased select-none overflow-hidden">
+<!-- Mobile Device Simulation Frame (iPhone 9:16 portrait ~390px x 844px) -->
+<main class="relative w-full max-w-[400px] h-[100dvh] max-h-[852px] bg-gradient-to-b from-[#B8B8C8] via-[#FFF3D6] to-[#FFE27A] overflow-hidden flex flex-col justify-between shadow-2xl rounded-[44px] border-[6px] border-[#1A1A2E]">
+<!-- BEGIN: iOS Status Bar Area -->
+<header class="w-full pt-3 px-8 flex justify-between items-center z-40 text-cartoon-navy font-bold text-sm tracking-wider" data-purpose="ios-status-bar">
+<!-- iOS Clock -->
+<span class="">9:41</span>
+<!-- Dynamic Island / Speaker Pill indicator -->
+<div class="w-24 h-5 bg-cartoon-navy rounded-full mx-auto -mt-1 opacity-95"></div>
+<!-- Right Status Icons -->
+<div class="flex items-center gap-1.5">
+<svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M12 3c-4.97 0-9 4.03-9 9 0 2.12.74 4.07 1.97 5.61L4.35 18.25c-.39.39-.39 1.02 0 1.41.39.39 1.02.39 1.41 0l.64-.64C8.01 19.98 9.92 21 12 21c4.97 0 9-4.03 9-9s-4.03-9-9-9zm0 16c-3.86 0-7-3.14-7-7s3.14-7 7-7 7 3.14 7 7-3.14 7-7 7z"></path></svg>
+<svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M12 4C7.31 4 3.07 5.9 0 8.98L12 21 24 8.98A16.88 16.88 0 0 0 12 4z"></path></svg>
+<div class="w-5 h-2.5 border-2 border-cartoon-navy rounded-sm flex items-center p-0.5">
+<div class="w-full h-full bg-cartoon-navy rounded-[1px]"></div>
+</div>
+</div>
+</header>
+<!-- END: iOS Status Bar Area -->
+<!-- BEGIN: Cartoon Narrative Illustration (Grey World being Restored into Color) -->
+<div class="relative w-full h-[62%] overflow-hidden flex items-center justify-center" data-purpose="interactive-landscape">
+<!-- Background Sky Splashes & Sun Rays -->
+<div class="absolute inset-0 z-0">
+<!-- Grey sky zone on top -->
+<div class="absolute top-0 inset-x-0 h-44 bg-[#C0C0D2]"></div>
+<!-- Big Restored Color Burst Circle (Radial Sunburst of Joy) -->
+<div class="absolute top-28 left-1/2 -translate-x-1/2 w-[460px] h-[460px] bg-gradient-to-tr from-[#54C8FF] via-[#FFD23F] to-[#FF80AB] rounded-full opacity-90 blur-xl"></div>
+<!-- Whimsical Rainbow Arc blooming out -->
+<svg class="absolute -top-4 -right-16 w-64 h-64 pointer-events-none opacity-85 animate-pulse-scale" viewBox="0 0 200 200">
+<circle cx="100" cy="100" fill="none" opacity="0.9" r="80" stroke="#FF6B6B" stroke-width="12"></circle>
+<circle cx="100" cy="100" fill="none" opacity="0.95" r="68" stroke="#FFD23F" stroke-width="12"></circle>
+<circle cx="100" cy="100" fill="none" opacity="0.9" r="56" stroke="#4CD964" stroke-width="12"></circle>
+<circle cx="100" cy="100" fill="none" opacity="0.95" r="44" stroke="#54C8FF" stroke-width="12"></circle>
+<circle cx="100" cy="100" fill="none" opacity="0.9" r="32" stroke="#C77DFF" stroke-width="12"></circle>
+</svg>
+</div>
+<!-- Anthropomorphic Clouds (One grey & snoozing, one joyful in full color) -->
+<!-- Snoozing Grey Cloud (Top Left) -->
+<div class="absolute top-6 left-5 z-10 flex flex-col items-center animate-bounce-gentle">
+<svg class="w-20 h-14 filter drop-shadow-[0_4px_0_#1A1A2E]" fill="#E2E2EC" viewBox="0 0 100 65">
+<path class="stroke-bold" d="M25,55 C12,55 5,45 8,32 C10,20 22,18 28,20 C32,8 48,5 58,15 C66,5 82,8 86,22 C95,24 98,38 90,48 C85,55 76,55 70,55 Z"></path>
+<!-- Sleepy face -->
+<path d="M28,34 Q33,38 38,34" fill="none" stroke="#1A1A2E" stroke-linecap="round" stroke-width="3"></path>
+<path d="M54,34 Q59,38 64,34" fill="none" stroke="#1A1A2E" stroke-linecap="round" stroke-width="3"></path>
+<circle cx="28" cy="40" fill="#B8B8CE" r="3"></circle>
+<circle cx="64" cy="40" fill="#B8B8CE" r="3"></circle>
+</svg>
+</div>
+<!-- Happy Awakened Sun-Cloud (Top Right) -->
+<div class="absolute top-8 right-6 z-10 animate-float-slow">
+<svg class="w-24 h-16 filter drop-shadow-[0_5px_0_#1A1A2E]" fill="#FFFFFF" viewBox="0 0 110 70">
+<!-- Colorful rainbow aura -->
+<path class="stroke-bold fill-cartoon-cream" d="M30,60 C15,60 8,48 12,35 C15,22 28,20 34,22 C40,8 58,5 70,16 C80,6 96,10 100,24 C109,28 110,44 100,54 C94,60 82,60 76,60 Z"></path>
+<!-- Cheerful eyes & open happy smile -->
+<ellipse cx="44" cy="36" fill="#1A1A2E" rx="4" ry="5.5"></ellipse>
+<ellipse cx="72" cy="36" fill="#1A1A2E" rx="4" ry="5.5"></ellipse>
+<circle cx="43" cy="34" fill="#FFFFFF" r="1.5"></circle>
+<circle cx="71" cy="34" fill="#FFFFFF" r="1.5"></circle>
+<path d="M52,43 Q58,51 64,43" fill="#FF6B6B" stroke="#1A1A2E" stroke-linecap="round" stroke-width="3"></path>
+<!-- Rosy pink cheeks -->
+<ellipse cx="36" cy="42" fill="#FF80AB" rx="4.5" ry="3"></ellipse>
+<ellipse cx="80" cy="42" fill="#FF80AB" rx="4.5" ry="3"></ellipse>
+</svg>
+</div>
+<!-- Background Hills: Transformation from Monochrome to Rolling Rainbow Green -->
+<div class="absolute bottom-0 inset-x-0 w-full h-48 z-10 pointer-events-none">
+<!-- Far grey hill -->
+<svg class="absolute bottom-16 -left-10 w-[120%] h-36" preserveAspectRatio="none" viewBox="0 0 400 120">
+<path class="stroke-bold fill-cartoon-hillGrey" d="M0,70 Q120,10 240,50 T450,40 L450,120 L0,120 Z"></path>
+</svg>
+<!-- Near vibrant grassy hill bursting with restored saturation -->
+<svg class="absolute bottom-0 -left-6 w-[120%] h-44" preserveAspectRatio="none" viewBox="0 0 420 150">
+<defs>
+<linearGradient id="grassGrad" x1="0" x2="1" y1="0" y2="1">
+<stop offset="0%" stop-color="#4CD964"></stop>
+<stop offset="60%" stop-color="#34C759"></stop>
+<stop offset="100%" stop-color="#FFD23F"></stop>
+</linearGradient>
+</defs>
+<path class="stroke-bold" d="M-20,60 Q110,10 230,65 T460,40 L460,160 L-20,160 Z" fill="url(#grassGrad)"></path>
+</svg>
+</div>
+<!-- Cartoon Elements: Smiling Little Cottage (Half in transformation!) -->
+<div class="absolute bottom-20 right-4 z-20 animate-bounce-gentle">
+<svg class="w-32 h-32 filter drop-shadow-[0_6px_0_#1A1A2E]" viewBox="0 0 140 140">
+<!-- Chimney puffing colorful bubbles -->
+<rect class="stroke-medium fill-cartoon-coral rounded-t-sm" height="24" width="16" x="92" y="24"></rect>
+<circle class="stroke-medium" cx="100" cy="15" fill="#FFD23F" r="5"></circle>
+<circle class="stroke-medium" cx="106" cy="6" fill="#54C8FF" r="3.5"></circle>
+<!-- Red Coated Roof with rounded eaves -->
+<path class="stroke-bold fill-cartoon-coral" d="M70,25 L125,75 C127,77 122,82 116,80 L24,80 C18,82 13,77 15,75 Z"></path>
+<!-- House Walls (Sunny Cream) -->
+<rect class="stroke-bold fill-cartoon-cream" height="54" rx="12" width="84" x="28" y="78"></rect>
+<!-- Cute Round Attic Window with Sparkle -->
+<circle class="stroke-medium fill-cartoon-sky" cx="70" cy="56" r="12"></circle>
+<path d="M58,56 L82,56 M70,44 L70,68" stroke="#1A1A2E" stroke-linecap="round" stroke-width="2.5"></path>
+<!-- Smiling Little Front Door -->
+<rect class="stroke-medium fill-cartoon-sun" height="36" rx="8" width="22" x="42" y="96"></rect>
+<circle cx="58" cy="114" fill="#1A1A2E" r="2.5"></circle>
+<!-- Big window with friendly eyes -->
+<rect class="stroke-medium fill-cartoon-sky" height="24" rx="6" width="26" x="74" y="92"></rect>
+<ellipse cx="82" cy="104" fill="#1A1A2E" rx="2.5" ry="3.5"></ellipse>
+<ellipse cx="92" cy="104" fill="#1A1A2E" rx="2.5" ry="3.5"></ellipse>
+<path d="M84,110 Q87,113 90,110" fill="none" stroke="#1A1A2E" stroke-linecap="round" stroke-width="2"></path>
+</svg>
+</div>
+<!-- Cartoon Elements: Cute Stylized Tree (Candy-Lollipop style) -->
+<div class="absolute bottom-20 left-4 z-20">
+<svg class="w-24 h-36 filter drop-shadow-[0_6px_0_#1A1A2E]" viewBox="0 0 100 150">
+<!-- Tree Trunk -->
+<path class="stroke-bold fill-[#B5651D]" d="M44,80 L56,80 L58,140 C58,145 42,145 42,140 Z"></path>
+<!-- Foliage Big Round Leaves with glossy highlight spots -->
+<circle class="stroke-bold fill-cartoon-grass" cx="50" cy="55" r="38"></circle>
+<circle cx="36" cy="40" fill="#72E887" opacity="0.8" r="16"></circle>
+<ellipse cx="38" cy="34" fill="#FFFFFF" opacity="0.9" rx="6" ry="3"></ellipse>
+<!-- Cheerful sleeping apple/fruit friend in tree -->
+<circle class="stroke-medium fill-cartoon-coral" cx="64" cy="62" r="7"></circle>
+</svg>
+</div>
+<!-- HERO CHARACTER: "The Color Thief" / Restorer! Leaping with Rainbow Brush & Star Sparkles -->
+<div class="absolute bottom-24 left-1/2 -translate-x-[55%] z-30 flex flex-col items-center animate-wiggle">
+<!-- Magic Wand / Giant Paintbrush -->
+<div class="relative w-44 h-44 pointer-events-none">
+<!-- Giant Magic Paint Brush Leaping diagonally -->
+<svg class="w-full h-full filter drop-shadow-[0_8px_0_#1A1A2E]" viewBox="0 0 160 160">
+<!-- Radiant Splashes of Multi-color Ink exploding from tip -->
+<path class="stroke-bold fill-cartoon-sun animate-pulse-scale" d="M125,25 C145,15 155,30 150,45 C145,60 130,58 128,45 Z"></path>
+<path class="stroke-medium fill-cartoon-pink" d="M110,8 C118,2 125,8 120,18 C115,28 105,20 110,8 Z"></path>
+<path class="stroke-medium fill-cartoon-sky" d="M140,55 C152,58 155,70 144,76 C135,80 130,68 140,55 Z"></path>
+<!-- Character: Adorable Fluffy Inky Creature / Color Thief Kid -->
+<!-- Tail/Drop trail -->
+<path class="stroke-bold fill-cartoon-sun" d="M45,120 C30,135 20,115 35,95 Z"></path>
+<!-- Body: Vibrant Sunshine Yellow Plump Orb -->
+<ellipse class="stroke-bold fill-cartoon-sun" cx="78" cy="85" rx="38" ry="34"></ellipse>
+<!-- White 3D gloss bubble shine -->
+<path d="M55,65 C62,58 75,56 82,58 C80,63 70,66 60,70 Z" fill="#FFFFFF" opacity="0.75"></path>
+<!-- Cute Cartoon Eyes (Huge, expressive Pixar-style pupils) -->
+<!-- Left Eye -->
+<ellipse class="stroke-medium" cx="68" cy="80" fill="#FFFFFF" rx="9" ry="12"></ellipse>
+<ellipse cx="70" cy="80" fill-cartoon-navy="" rx="5.5" ry="7.5"></ellipse>
+<circle cx="68" cy="76" fill="#FFFFFF" r="2.5"></circle>
+<circle cx="73" cy="83" fill="#FFFFFF" r="1.2"></circle>
+<!-- Right Eye (Winking or joyful wide eye) -->
+<ellipse class="stroke-medium" cx="94" cy="80" fill="#FFFFFF" rx="9" ry="12"></ellipse>
+<ellipse cx="92" cy="80" fill-cartoon-navy="" rx="5.5" ry="7.5"></ellipse>
+<circle cx="90" cy="76" fill="#FFFFFF" r="2.5"></circle>
+<circle cx="95" cy="83" fill="#FFFFFF" r="1.2"></circle>
+<!-- Chubby rosy cheeks -->
+<ellipse cx="56" cy="92" fill-cartoon-coral="" opacity="0.85" rx="6" ry="4"></ellipse>
+<ellipse cx="104" cy="92" fill-cartoon-coral="" opacity="0.85" rx="6" ry="4"></ellipse>
+<!-- Big Joyful Open Mouth with pink tongue -->
+<path class="stroke-medium fill-[#900C3F]" d="M72,95 Q82,108 92,95 Z"></path>
+<path d="M76,98 Q82,105 88,98" fill-cartoon-pink=""></path>
+<!-- Paint Brush held happily in little hands -->
+<!-- Handle -->
+<path class="stroke-bold fill-[#D35400]" d="M102,74 L138,40 C141,37 146,42 143,45 L112,82 Z"></path>
+<!-- Metal Ferrule -->
+<rect class="stroke-medium fill-[#CBD5E1]" height="10" transform="rotate(42 124 38)" width="12" x="124" y="38"></rect>
+<!-- Bristles dripping hot cyan/blue paint -->
+<path class="stroke-medium fill-cartoon-sky" d="M136,26 C145,15 158,26 148,38 Z"></path>
+<!-- Little chubby glove hands -->
+<circle class="stroke-medium fill-cartoon-cream" cx="102" cy="82" r="7"></circle>
+<circle class="stroke-medium fill-cartoon-cream" cx="58" cy="86" r="7"></circle>
+<!-- Cute tiny feet dangling playfully -->
+<ellipse class="stroke-bold fill-cartoon-coral" cx="64" cy="118" rx="8" ry="6"></ellipse>
+<ellipse class="stroke-bold fill-cartoon-coral" cx="88" cy="118" rx="8" ry="6"></ellipse>
+</svg>
+</div>
+</div>
+<!-- Whimsical floating sparkles and confetti dots -->
+<!-- Star 1 -->
+<div class="absolute top-20 left-28 z-20 animate-sparkle-twinkle">
+<svg class="w-7 h-7 filter drop-shadow-[0_2px_0_#1A1A2E]" viewBox="0 0 24 24">
+<path d="M12,2 L15,9 L22,12 L15,15 L12,22 L9,15 L2,12 L9,9 Z" fill="#FFD23F" stroke="#1A1A2E" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</div>
+<!-- Star 2 -->
+<div class="absolute top-36 right-8 z-20 animate-sparkle-twinkle" style="animation-delay: 0.8s;">
+<svg class="w-8 h-8 filter drop-shadow-[0_2px_0_#1A1A2E]" viewBox="0 0 24 24">
+<path d="M12,2 L15,9 L22,12 L15,15 L12,22 L9,15 L2,12 L9,9 Z" fill="#FF4081" stroke="#1A1A2E" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</div>
+<!-- Droplet 1 -->
+<div class="absolute bottom-40 left-10 w-4 h-4 bg-cartoon-sky rounded-full border-2 border-cartoon-navy animate-bounce-gentle shadow-sm"></div>
+<!-- Droplet 2 -->
+<div class="absolute bottom-52 right-24 w-3 h-3 bg-cartoon-lavender rounded-full border-2 border-cartoon-navy animate-pulse shadow-sm"></div>
+</div>
+<!-- END: Cartoon Narrative Illustration -->
+<!-- BEGIN: Title, Brand Identity & Call-to-Action -->
+<section class="relative z-30 w-full px-6 pb-10 pt-2 flex flex-col items-center text-center" data-purpose="game-launch-controls">
+<!-- Main Game Title Logo: "Color Thief" -->
+<div class="relative mb-4 cursor-pointer group transform transition active:scale-95 duration-200">
+<!-- Floating Sparkle Accent on Title -->
+<span class="absolute -top-5 -left-3 text-2xl animate-spin" style="animation-duration: 8s;">✨</span>
+<span class="absolute -top-3 -right-4 text-2xl animate-bounce">🎨</span>
+<h1 class="text-[52px] leading-tight font-extrabold tracking-wide bubbly-title select-none font-fredoka flex flex-col items-center">
+<span class="text-cartoon-sun drop-shadow-sm filter">Color</span>
+<span class="text-white -mt-3.5 tracking-normal">Thief</span>
+</h1>
+<!-- Subtitle badge for ages 2-6 -->
+
+</div>
+<!-- Primary Toddler-Friendly Action: Big Bouncy "Play" Button -->
+<button class="w-full max-w-[290px] py-4 px-8 bg-gradient-to-b from-[#4CD964] to-[#2EBD48] text-white text-2xl font-black rounded-3xl border-[4px] border-cartoon-navy bubble-shadow active:translate-y-1.5 active:shadow-[0_2px_0_#1A1A2E] transition-all flex items-center justify-center gap-3 group relative overflow-hidden" data-purpose="play-button" type="button">
+<!-- Glossy highlight bar on top edge of button -->
+<div class="absolute top-1 inset-x-4 h-2 bg-white/40 rounded-full pointer-events-none"></div>
+<!-- Big rounded Play Icon -->
+<div class="w-9 h-9 rounded-full bg-white flex items-center justify-center shadow-inner border-2 border-cartoon-navy group-hover:scale-110 transition-transform">
+<svg class="w-5 h-5 text-cartoon-navy ml-0.5 fill-current" viewBox="0 0 24 24">
+<path d="M8 5v14l11-7z"></path>
+</svg>
+</div>
+<!-- Button text -->
+<span class="tracking-wide text-white drop-shadow-[0_2px_0_#1A1A2E]">TAP TO PLAY!</span>
+</button>
+<!-- Parent-gated Settings / Clean footer indicator (strictly toddler-safe) -->
+<footer class="mt-4 flex items-center justify-center gap-6 text-cartoon-navy font-bold text-xs">
+<button class="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white/70 border-2 border-cartoon-navy/80 active:bg-white transition-colors" type="button">
+<svg class="w-3.5 h-3.5 fill-current text-cartoon-navy" viewBox="0 0 24 24">
+<path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 4a3 3 0 1 1 0 6 3 3 0 0 1 0-6zm4 11H8v-1c0-1.33 2.67-2 4-2s4 .67 4 2v1z"></path>
+</svg>
+<span class="">For Parents</span>
+</button>
+<button class="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white/70 border-2 border-cartoon-navy/80 active:bg-white transition-colors" type="button">
+<svg class="w-3.5 h-3.5 fill-current text-cartoon-navy" viewBox="0 0 24 24">
+<path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"></path>
+</svg>
+<span class="">Music ON</span>
+</button>
+</footer>
+<!-- iOS Home Indicator Bar -->
+<div class="w-36 h-1.5 bg-cartoon-navy rounded-full mt-3 opacity-90" data-purpose="ios-home-indicator"></div>
+</section>
+<!-- END: Title, Brand Identity & Call-to-Action -->
+</main>
+<!-- BEGIN: Audio / Tap Interactive Feel -->
+<script data-purpose="interaction-effects">
+    // Add lightweight tactile haptic bounce on tap
+    document.querySelector('[data-purpose="play-button"]')?.addEventListener('click', function() {
+      this.classList.add('scale-95');
+      setTimeout(() => {
+        this.classList.remove('scale-95');
+      }, 150);
+    });
+  </script>
+<!-- END: Audio / Tap Interactive Feel -->
+
+
+</body></html>

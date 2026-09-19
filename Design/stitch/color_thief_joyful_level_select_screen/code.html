@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700&amp;family=Nunito:wght@700;800;900&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "cream": "#FFF9F0",
+            "navy": "#1A1A2E",
+            "sun-yellow": "#FFD23F",
+            "sky-blue": "#54C8FF",
+            "grass-green": "#4CD964",
+            "coral-red": "#FF6B6B",
+            "lavender-purple": "#C77DFF",
+            "hot-pink": "#FF4081",
+            "cloud-grey": "#C8C8D4",
+            "cloud-grey-light": "#E5E5EE",
+            "star-orange": "#FF9800",
+            "mint-neon": "#00E5CC"
+          },
+          fontFamily: {
+            "fredoka": ["Fredoka", "Fredoka One", "cursive", "sans-serif"],
+            "nunito": ["Nunito", "sans-serif"]
+          },
+          boxShadow: {
+            'cartoon': '0px 6px 0px #1A1A2E',
+            'cartoon-sm': '0px 4px 0px #1A1A2E',
+            'cartoon-lg': '0px 8px 0px #1A1A2E',
+            'cartoon-press': '0px 2px 0px #1A1A2E',
+            'glow-yellow': '0 0 24px rgba(255, 210, 63, 0.75)'
+          }
+        }
+      }
+    };
+  </script>
+<style>
+    @layer base {
+      html, body {
+        width: 100vw;
+        margin: 0;
+        padding: 0;
+        background-color: #FFF9F0;
+        font-family: 'Fredoka', cursive, sans-serif;
+        color: #1A1A2E;
+        -webkit-user-select: none;
+        user-select: none;
+        -webkit-tap-highlight-color: transparent;
+      }
+      .pt-safe { padding-top: max(44px, env(safe-area-inset-top, 44px)); }
+      .pb-safe { padding-bottom: max(24px, env(safe-area-inset-bottom, 24px)); }
+    }
+    ::-webkit-scrollbar { display: none; }
+
+    @keyframes gentleBounce {
+      0%, 100% { transform: translateY(0) scale(1); }
+      50% { transform: translateY(-8px) scale(1.03); }
+    }
+    @keyframes pulseGlow {
+      0%, 100% { box-shadow: 0 6px 0 #1A1A2E, 0 0 0px rgba(255, 210, 63, 0.4); }
+      50% { box-shadow: 0 6px 0 #1A1A2E, 0 0 22px rgba(255, 210, 63, 0.95); }
+    }
+    @keyframes wiggle {
+      0%, 100% { transform: rotate(0deg); }
+      25% { transform: rotate(-5deg); }
+      75% { transform: rotate(5deg); }
+    }
+    .current-level-anim {
+      animation: gentleBounce 2.4s ease-in-out infinite, pulseGlow 1.8s ease-in-out infinite;
+    }
+    .wiggle-anim {
+      animation: wiggle 2s ease-in-out infinite;
+    }
+    .squish-btn {
+      transition: transform 0.1s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.1s ease;
+    }
+    .squish-btn:active {
+      transform: translateY(4px) scale(0.95) !important;
+      box-shadow: 0 2px 0 #1A1A2E !important;
+    }
+    /* Playful cloud background blobs */
+    .bg-pattern-clouds {
+      background-image: radial-gradient(#FFE8C5 18%, transparent 19%), radial-gradient(#FFE8C5 18%, transparent 19%);
+      background-size: 60px 60px;
+      background-position: 0 0, 30px 30px;
+      background-repeat: repeat;
+      opacity: 0.45;
+    }
+  </style>
+</head>
+<body class="bg-cream min-h-screen flex flex-col justify-between overflow-x-hidden relative">
+<!-- Subtle decorative polka dot / playful wallpaper background -->
+<div class="fixed inset-0 pointer-events-none bg-pattern-clouds z-0"></div>
+<!-- Top App Header (Child-Friendly & Joyful) -->
+<header class="relative z-20 pt-safe px-5 pb-3 flex items-center justify-between w-full">
+<!-- Back to World Button -->
+<button aria-label="Go Back" class="squish-btn w-14 h-14 rounded-full bg-coral-red border-4 border-navy shadow-cartoon flex items-center justify-center text-white" onclick="playSquish(this)">
+<span class="material-symbols-outlined text-[34px] font-black -translate-x-0.5">arrow_back_rounded</span>
+</button>
+<!-- World Title with Chunky 3D Cartoon Pop -->
+<div class="flex flex-col items-center">
+<span class="text-[14px] font-nunito font-extrabold uppercase tracking-widest text-navy/70 -mb-1">Chapter 1</span>
+<h1 class="text-[32px] font-fredoka font-bold text-coral-red tracking-wide drop-shadow-[0_3px_0_#1A1A2E]" style="-webkit-text-stroke: 1.5px #1A1A2E;">
+        WORLD 1
+      </h1>
+</div>
+<!-- Star Counter Pill -->
+<div class="h-14 px-4 bg-white border-4 border-navy rounded-full shadow-cartoon flex items-center gap-2">
+<!-- Chunky Gold Star with Orange Outline -->
+<span class="material-symbols-outlined text-sun-yellow text-[32px] drop-shadow-[0_2px_0_#FF9800]" style="font-variation-settings: 'FILL' 1;">
+        star
+      </span>
+<span class="text-[20px] font-fredoka font-bold text-navy tracking-tight">
+        8<span class="text-[16px] text-navy/50 font-nunito font-extrabold">/18</span>
+</span>
+</div>
+</header>
+<!-- Main Content: Winding Road & Level Grid -->
+<main class="flex-1 relative z-10 px-5 flex flex-col items-center justify-start w-full max-w-[430px] mx-auto py-2">
+<!-- Cartoon Grid Area with SVG Road Connector -->
+<div class="w-full relative mt-3 mb-4">
+<!-- Chunky Cartoon Winding Road Behind Level Cards -->
+<svg class="absolute inset-0 w-full h-full pointer-events-none z-0" fill="none" viewbox="0 0 360 410">
+<!-- Road Underline shadow -->
+<path d="M 64 64 C 180 64, 180 185, 64 185 C -10 185, 0 310, 64 310 L 296 310 C 370 310, 360 185, 296 185 C 240 185, 230 64, 296 64" opacity="0.15" stroke="#1A1A2E" stroke-linecap="round" stroke-linejoin="round" stroke-width="20"></path>
+<!-- Dashed Colorful Path -->
+<path d="M 64 64 C 180 64, 180 185, 64 185 C -10 185, 0 310, 64 310 L 296 310 C 370 310, 360 185, 296 185 C 240 185, 230 64, 296 64" stroke="#FFD23F" stroke-dasharray="14 14" stroke-linecap="round" stroke-width="12"></path>
+</svg>
+<!-- 3x3 Child-Friendly Grid -->
+<div class="grid grid-cols-3 gap-y-7 gap-x-5 w-full relative z-10">
+<!-- LEVEL 1: Completed (Sunshine Yellow) -->
+<button class="squish-btn relative aspect-square w-full rounded-[38px] bg-sun-yellow border-4 border-navy shadow-cartoon flex flex-col items-center justify-between p-2 pt-3" onclick="playSquish(this)">
+<span class="text-[34px] font-fredoka font-bold text-white drop-shadow-[0_3px_0_#1A1A2E]" style="-webkit-text-stroke: 1.5px #1A1A2E;">1</span>
+<!-- 3 Chunky Gold Stars -->
+<div class="flex items-center justify-center gap-0.5 pb-1">
+<span class="material-symbols-outlined text-[22px] text-sun-yellow drop-shadow-[0_2px_0_#FF9800]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[24px] text-sun-yellow drop-shadow-[0_2px_0_#FF9800] -mt-1.5" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[22px] text-sun-yellow drop-shadow-[0_2px_0_#FF9800]" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+</button>
+<!-- LEVEL 2: Completed (Sky Blue) -->
+<button class="squish-btn relative aspect-square w-full rounded-[38px] bg-sky-blue border-4 border-navy shadow-cartoon flex flex-col items-center justify-between p-2 pt-3" onclick="playSquish(this)">
+<span class="text-[34px] font-fredoka font-bold text-white drop-shadow-[0_3px_0_#1A1A2E]" style="-webkit-text-stroke: 1.5px #1A1A2E;">2</span>
+<!-- 2 Gold Stars + 1 Soft Outline -->
+<div class="flex items-center justify-center gap-0.5 pb-1">
+<span class="material-symbols-outlined text-[22px] text-sun-yellow drop-shadow-[0_2px_0_#FF9800]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[24px] text-sun-yellow drop-shadow-[0_2px_0_#FF9800] -mt-1.5" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[22px] text-white/50" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+</button>
+<!-- LEVEL 3: Completed (Grass Green) -->
+<button class="squish-btn relative aspect-square w-full rounded-[38px] bg-grass-green border-4 border-navy shadow-cartoon flex flex-col items-center justify-between p-2 pt-3" onclick="playSquish(this)">
+<span class="text-[34px] font-fredoka font-bold text-white drop-shadow-[0_3px_0_#1A1A2E]" style="-webkit-text-stroke: 1.5px #1A1A2E;">3</span>
+<!-- 3 Chunky Gold Stars -->
+<div class="flex items-center justify-center gap-0.5 pb-1">
+<span class="material-symbols-outlined text-[22px] text-sun-yellow drop-shadow-[0_2px_0_#FF9800]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[24px] text-sun-yellow drop-shadow-[0_2px_0_#FF9800] -mt-1.5" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[22px] text-sun-yellow drop-shadow-[0_2px_0_#FF9800]" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+</button>
+<!-- LEVEL 4: CURRENT UNLOCKED (Glowing, Bouncing, Play Badge) -->
+<button class="squish-btn current-level-anim relative aspect-square w-full rounded-[38px] bg-white border-4 border-navy shadow-glow-yellow flex flex-col items-center justify-between p-2 pt-3" onclick="playSquish(this)">
+<!-- Play Floating Badge on Corner -->
+<div class="absolute -top-3 -right-2.5 w-10 h-10 rounded-full bg-sun-yellow border-[3.5px] border-navy shadow-cartoon-sm flex items-center justify-center wiggle-anim">
+<span class="material-symbols-outlined text-[24px] text-navy font-bold translate-x-0.5" style="font-variation-settings: 'FILL' 1;">play_arrow</span>
+</div>
+<span class="text-[36px] font-fredoka font-bold text-coral-red tracking-wide drop-shadow-[0_2px_0_#1A1A2E]">4</span>
+<!-- Empty Target Stars -->
+<div class="flex items-center justify-center gap-0.5 pb-1 text-cloud-grey">
+<span class="material-symbols-outlined text-[22px] text-cloud-grey" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[24px] text-cloud-grey -mt-1.5" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[22px] text-cloud-grey" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+</button>
+<!-- LEVEL 5: Locked (Cloud Grey with Friendly Dark Navy Padlock) -->
+<div class="aspect-square w-full rounded-[38px] bg-cloud-grey border-4 border-navy shadow-cartoon flex flex-col items-center justify-center relative">
+<span class="text-[28px] font-fredoka font-bold text-white/40 absolute -top-1 left-3">5</span>
+<div class="w-12 h-12 rounded-full bg-white/70 border-3 border-navy flex items-center justify-center shadow-inner">
+<span class="material-symbols-outlined text-[28px] text-navy font-black">lock</span>
+</div>
+</div>
+<!-- LEVEL 6: Locked -->
+<div class="aspect-square w-full rounded-[38px] bg-cloud-grey border-4 border-navy shadow-cartoon flex flex-col items-center justify-center relative">
+<span class="text-[28px] font-fredoka font-bold text-white/40 absolute -top-1 left-3">6</span>
+<div class="w-12 h-12 rounded-full bg-white/70 border-3 border-navy flex items-center justify-center shadow-inner">
+<span class="material-symbols-outlined text-[28px] text-navy font-black">lock</span>
+</div>
+</div>
+<!-- LEVEL 7: Locked -->
+<div class="aspect-square w-full rounded-[38px] bg-cloud-grey border-4 border-navy shadow-cartoon flex flex-col items-center justify-center relative">
+<span class="text-[28px] font-fredoka font-bold text-white/40 absolute -top-1 left-3">7</span>
+<div class="w-12 h-12 rounded-full bg-white/70 border-3 border-navy flex items-center justify-center shadow-inner">
+<span class="material-symbols-outlined text-[28px] text-navy font-black">lock</span>
+</div>
+</div>
+<!-- LEVEL 8: Locked -->
+<div class="aspect-square w-full rounded-[38px] bg-cloud-grey border-4 border-navy shadow-cartoon flex flex-col items-center justify-center relative">
+<span class="text-[28px] font-fredoka font-bold text-white/40 absolute -top-1 left-3">8</span>
+<div class="w-12 h-12 rounded-full bg-white/70 border-3 border-navy flex items-center justify-center shadow-inner">
+<span class="material-symbols-outlined text-[28px] text-navy font-black">lock</span>
+</div>
+</div>
+<!-- LEVEL 9: Boss / Mystery Level Locked -->
+<div class="aspect-square w-full rounded-[38px] bg-cloud-grey border-4 border-navy shadow-cartoon flex flex-col items-center justify-center relative">
+<span class="text-[28px] font-fredoka font-bold text-white/40 absolute -top-1 left-3">9</span>
+<div class="w-12 h-12 rounded-full bg-white/70 border-3 border-navy flex items-center justify-center shadow-inner">
+<span class="material-symbols-outlined text-[28px] text-navy font-black">lock</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Restored World Progress Bar Card -->
+<div class="w-full mt-3 px-1">
+<div class="w-full bg-white border-4 border-navy rounded-[28px] p-3 shadow-cartoon flex flex-col gap-2">
+<div class="flex items-center justify-between px-1">
+<div class="flex items-center gap-2">
+<!-- Paint Bucket Icon -->
+<span class="material-symbols-outlined text-[24px] text-coral-red">format_paint</span>
+<span class="text-[17px] font-fredoka font-bold text-navy uppercase tracking-wider">World Restored</span>
+</div>
+<span class="text-[18px] font-fredoka font-bold text-coral-red">45%</span>
+</div>
+<!-- Progress Track -->
+<div class="relative w-full h-7 bg-cloud-grey-light border-3 border-navy rounded-full overflow-hidden p-0.5">
+<!-- Filled Gradient Track (Sunshine Yellow -> Mint) -->
+<div class="h-full rounded-full bg-gradient-to-r from-sun-yellow via-grass-green to-mint-neon border-r-2 border-navy relative transition-all duration-500" style="width: 45%;">
+<!-- Shiny cartoon highlight reflection line -->
+<div class="absolute top-1 left-2 right-2 h-1.5 bg-white/50 rounded-full"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Rolling Hills Silhouette Illustration Bottom -->
+<div class="w-full pointer-events-none mt-2 -mb-2 overflow-hidden flex justify-center opacity-90">
+<svg class="w-full h-16" fill="none" preserveaspectratio="none" viewbox="0 0 360 60">
+<path d="M0 40 Q 90 10 180 32 T 360 20 L 360 60 L 0 60 Z" fill="#FFE0B2"></path>
+<path d="M0 48 Q 110 25 240 45 T 360 38 L 360 60 L 0 60 Z" fill="#FFCC80"></path>
+<!-- Little Folktale Tree -->
+<circle cx="50" cy="30" fill="#4CD964" r="14" stroke="#1A1A2E" stroke-width="2.5"></circle>
+<rect fill="#8D6E63" height="12" rx="2" stroke="#1A1A2E" stroke-width="2" width="6" x="47" y="40"></rect>
+<!-- Small Cottage -->
+<path d="M 300 42 L 315 28 L 330 42 Z" fill="#FF6B6B" stroke="#1A1A2E" stroke-width="2.5"></path>
+<rect fill="#FFF9F0" height="15" rx="2" stroke="#1A1A2E" stroke-width="2.5" width="22" x="304" y="42"></rect>
+</svg>
+</div>
+</main>
+<!-- Bottom Navigation: Safe Area + Chunky Cartoon Buttons -->
+<nav class="relative z-30 w-full pb-safe pt-2 px-6 bg-cream/90 backdrop-blur-md border-t-4 border-navy">
+<div class="h-20 flex items-center justify-around max-w-[420px] mx-auto">
+<!-- Home / World Map (Active) -->
+<a aria-label="World Map" class="squish-btn w-16 h-16 rounded-full bg-sun-yellow border-4 border-navy shadow-cartoon flex items-center justify-center text-navy scale-105" href="#" onclick="playSquish(this)">
+<span class="material-symbols-outlined text-[36px] font-black" style="font-variation-settings: 'FILL' 1;">map</span>
+</a>
+<!-- Color Vault / Rewards -->
+<a aria-label="Color Vault" class="squish-btn w-16 h-16 rounded-full bg-white border-4 border-navy shadow-cartoon flex items-center justify-center text-navy" href="#" onclick="playSquish(this)">
+<span class="material-symbols-outlined text-[34px] font-black text-lavender-purple" style="font-variation-settings: 'FILL' 1;">palette</span>
+</a>
+<!-- Parent Lock / Settings -->
+<a aria-label="Parent Zone" class="squish-btn w-16 h-16 rounded-full bg-white border-4 border-navy shadow-cartoon flex items-center justify-center text-navy" href="#" onclick="playSquish(this)">
+<span class="material-symbols-outlined text-[32px] font-black text-navy/70">shield_person</span>
+</a>
+</div>
+</nav>
+<!-- Interactive Squish Micro-Script -->
+<script>
+    function playSquish(btn) {
+      btn.style.transform = 'scale(0.90) translateY(4px)';
+      setTimeout(() => {
+        btn.style.transform = 'scale(1.05) translateY(-2px)';
+        setTimeout(() => {
+          btn.style.transform = '';
+        }, 120);
+      }, 90);
+    }
+  </script>
+</body></html>

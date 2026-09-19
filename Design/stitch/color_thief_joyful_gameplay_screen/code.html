@@ -1,0 +1,644 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport">
+<title>Color Thief — Level 3 Gameplay</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700&amp;family=Comfortaa:wght@700&amp;family=Nunito+Sans:wght@700;800&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@400..700,0..1&amp;display=swap" rel="stylesheet">
+<script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            fredoka: ['Fredoka', 'cursive', 'sans-serif'],
+            comfortaa: ['Comfortaa', 'cursive', 'sans-serif'],
+            nunito: ['"Nunito Sans"', 'sans-serif'],
+          },
+          colors: {
+            navy: '#1A1A2E',
+            navyBorder: '#1A1A2E',
+            sunshine: '#FFD23F',
+            skyBlue: '#54C8FF',
+            grassGreen: '#4CD964',
+            coralRed: '#FF6B6B',
+            mintSparkle: '#00E5CC',
+            softLavender: '#C77DFF',
+            hotPink: '#FF4081',
+            creamBg: '#FFF9F0',
+            cloudGrey: '#C8C8D4',
+            softGrey: '#A8A8B8',
+            deepGrey: '#909099',
+          }
+        }
+      }
+    }
+  </script>
+<style>
+    * {
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+      -webkit-user-select: none;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Fredoka', cursive, sans-serif;
+      background-color: #0d0d1a;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      overflow: hidden;
+    }
+
+    /* 9:16 mobile canvas container */
+    .mobile-screen {
+      width: 100vw;
+      max-width: 420px;
+      height: 100vh;
+      max-height: 890px;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      background: linear-gradient(180deg, #DCE9F6 0%, #E9F1F8 45%, #DFDCE8 100%);
+      border: 8px solid #1A1A2E;
+      border-radius: 46px;
+      box-shadow: 0 25px 60px -10px rgba(0, 0, 0, 0.65), 0 0 0 1px rgba(255,255,255,0.1);
+    }
+
+    /* Cartoon outlines and chunky borders */
+    .border-chunky {
+      border: 4px solid #1A1A2E;
+    }
+
+    .shadow-chunky {
+      box-shadow: 0 6px 0px #1A1A2E;
+    }
+
+    .shadow-chunky-sm {
+      box-shadow: 0 4px 0px #1A1A2E;
+    }
+
+    .shadow-chunky-lg {
+      box-shadow: 0 8px 0px #1A1A2E;
+    }
+
+    /* Toddler Pulse animations for interactive tap targets */
+    @keyframes bounceGently {
+      0%, 100% { transform: translateY(0px) scale(1); }
+      50% { transform: translateY(-8px) scale(1.03); }
+    }
+
+    .animate-gentle-bounce {
+      animation: bounceGently 2.4s ease-in-out infinite;
+    }
+
+    @keyframes tapRingPulse {
+      0% { transform: scale(0.9); opacity: 0.9; }
+      50% { transform: scale(1.22); opacity: 0.3; }
+      100% { transform: scale(0.9); opacity: 0.9; }
+    }
+
+    .pulse-ring {
+      animation: tapRingPulse 1.8s ease-in-out infinite;
+    }
+
+    @keyframes orbWiggle {
+      0%, 100% { transform: rotate(0deg) scale(1); }
+      25% { transform: rotate(-5deg) scale(1.04); }
+      75% { transform: rotate(5deg) scale(1.04); }
+    }
+
+    .animate-wiggle {
+      animation: orbWiggle 3s ease-in-out infinite;
+    }
+
+    @keyframes floatStar {
+      0%, 100% { transform: translateY(0px) rotate(0deg) scale(1); }
+      50% { transform: translateY(-10px) rotate(18deg) scale(1.15); }
+    }
+
+    .animate-star {
+      animation: floatStar 2.6s ease-in-out infinite;
+    }
+
+    @keyframes sunSpinSlow {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .spin-sun-rays {
+      animation: sunSpinSlow 26s linear infinite;
+      transform-origin: 320px 85px;
+    }
+
+    /* Sparkle Particle explosion on interactive tap */
+    .splat-particle {
+      position: absolute;
+      pointer-events: none;
+      border-radius: 9999px;
+      z-index: 60;
+      animation: splatFade 0.8s cubic-bezier(0.1, 0.8, 0.25, 1) forwards;
+    }
+
+    @keyframes splatFade {
+      0% { opacity: 1; transform: translate(0, 0) scale(1); }
+      100% { opacity: 0; transform: translate(var(--dx), var(--dy)) scale(0.2); }
+    }
+  </style>
+</head>
+<body>
+<!-- MOBILE DEVICE FRAME (9:16 Portrait) -->
+<div class="mobile-screen" id="game-container">
+<!-- ================= 1. TOP BAR HUD (Toddler Friendly, Safe Margin) ================= -->
+<header class="w-full pt-11 pb-3 px-5 z-40 flex items-center justify-between bg-white/85 backdrop-blur-md border-b-[4px] border-[#1A1A2E]">
+<!-- Big Chunky Home Button (60x60px) with 4px outline -->
+<button aria-label="Home" class="w-[58px] h-[58px] rounded-[22px] bg-[#FFF9F0] border-chunky shadow-chunky flex items-center justify-center text-[#1A1A2E] active:translate-y-1 active:shadow-none transition-all cursor-pointer" onclick="popButton(this)">
+<span class="material-symbols-outlined text-[34px] font-black text-[#1A1A2E]">home</span>
+</button>
+<!-- Level Indicator Title -->
+<div class="flex flex-col items-center">
+<span class="font-fredoka text-[24px] font-bold tracking-wide text-[#1A1A2E] drop-shadow-[0_2px_0px_rgba(255,210,63,0.8)]">
+          LEVEL 3
+        </span>
+</div>
+<!-- Chunky Progress Bar Capsule (3/6 objects colored) -->
+<div class="flex items-center gap-2.5 bg-[#FFF9F0] py-1.5 px-3 rounded-full border-chunky shadow-chunky">
+<!-- Paint Bucket Icon -->
+<div class="w-7 h-7 rounded-full bg-[#FFD23F] border-[2.5px] border-[#1A1A2E] flex items-center justify-center -rotate-12">
+<span class="material-symbols-outlined text-[17px] text-[#1A1A2E] font-black">format_paint</span>
+</div>
+<!-- Progress Track -->
+<div class="w-20 h-4 bg-[#C8C8D4] rounded-full overflow-hidden p-0.5 border-2 border-[#1A1A2E] relative">
+<!-- Gradient fill from Sunshine Yellow to Mint -->
+<div class="h-full rounded-full bg-gradient-to-r from-[#FFD23F] via-[#4CD964] to-[#00E5CC] transition-all duration-500" id="progress-bar-fill" style="width: 50%;"></div>
+</div>
+<!-- 3/6 Text -->
+<span class="text-[18px] font-fredoka font-bold text-[#1A1A2E] tracking-tight min-w-[32px]" id="progress-text">3/6</span>
+</div>
+</header>
+<!-- ================= 2. MAIN CARTOON PLAYGROUND (Landscape + Characters) ================= -->
+<main class="relative flex-1 w-full overflow-hidden" id="interactive-stage">
+<!-- Dynamic Particles Canvas Overlay -->
+<div class="absolute inset-0 pointer-events-none z-50" id="splat-overlay"></div>
+<!-- FULL SVG PICTURE-BOOK WORLD -->
+<svg class="absolute inset-0 w-full h-full" preserveAspectRatio="xMidYMid slice" viewBox="0 0 390 590" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<!-- Soft Drop Shadows -->
+<filter height="120%" id="cartoon-drop" width="120%" x="-10%" y="-10%">
+<feDropShadow dx="0" dy="5" flood-color="#1A1A2E" flood-opacity="0.9" stdDeviation="0.5"></feDropShadow>
+</filter>
+<filter height="140%" id="soft-glow" width="140%" x="-20%" y="-20%">
+<feGaussianBlur result="blur" stdDeviation="5"></feGaussianBlur>
+<feComposite in="SourceGraphic" in2="blur" operator="over"></feComposite>
+</filter>
+<!-- Gradients -->
+<linearGradient id="skyGrad" x1="0%" x2="0%" y1="0%" y2="100%">
+<stop offset="0%" stop-color="#9EE4FF"></stop>
+<stop offset="60%" stop-color="#D6F4FF"></stop>
+<stop offset="100%" stop-color="#FFF5DC"></stop>
+</linearGradient>
+<linearGradient id="sunGrad" x1="0%" x2="100%" y1="0%" y2="100%">
+<stop offset="0%" stop-color="#FFF066"></stop>
+<stop offset="100%" stop-color="#FFD23F"></stop>
+</linearGradient>
+<linearGradient id="greenTreeGrad" x1="0%" x2="0%" y1="0%" y2="100%">
+<stop offset="0%" stop-color="#62E879"></stop>
+<stop offset="100%" stop-color="#3AC452"></stop>
+</linearGradient>
+</defs>
+<!-- Dynamic Sky Backdrop -->
+<rect fill="url(#skyGrad)" height="590" id="sky-surface" width="390"></rect>
+<!-- ================= SKY ELEMENTS ================= -->
+<!-- ELEMENT 1: CHEERFUL SUN (Restored, anthropomorphic, glossy) -->
+<g class="cursor-pointer" id="element-sun" onclick="splatColor('sun', 320, 85, event)">
+<!-- Rotating Cartoon Rays -->
+<g class="spin-sun-rays">
+<line stroke="#FFD23F" stroke-linecap="round" stroke-width="7" x1="320" x2="320" y1="20" y2="35"></line>
+<line stroke="#FFD23F" stroke-linecap="round" stroke-width="7" x1="320" x2="320" y1="135" y2="150"></line>
+<line stroke="#FFD23F" stroke-linecap="round" stroke-width="7" x1="255" x2="270" y1="85" y2="85"></line>
+<line stroke="#FFD23F" stroke-linecap="round" stroke-width="7" x1="370" x2="385" y1="85" y2="85"></line>
+<line stroke="#FFD23F" stroke-linecap="round" stroke-width="7" x1="274" x2="285" y1="39" y2="50"></line>
+<line stroke="#FFD23F" stroke-linecap="round" stroke-width="7" x1="355" x2="366" y1="120" y2="131"></line>
+<line stroke="#FFD23F" stroke-linecap="round" stroke-width="7" x1="366" x2="355" y1="39" y2="50"></line>
+<line stroke="#FFD23F" stroke-linecap="round" stroke-width="7" x1="285" x2="274" y1="120" y2="131"></line>
+</g>
+<!-- Sun Disc with 4px outline -->
+<circle cx="320" cy="85" fill="url(#sunGrad)" filter="url(#cartoon-drop)" r="46" stroke="#1A1A2E" stroke-width="4.5"></circle>
+<!-- Glossy 3D Highlight Bubble -->
+<ellipse cx="304" cy="65" fill="#FFFFFF" opacity="0.6" rx="14" ry="7" transform="rotate(-30 304 65)"></ellipse>
+<!-- Cute Toddler Sun Face -->
+<circle cx="308" cy="82" fill="#1A1A2E" r="4.5"></circle>
+<circle cx="332" cy="82" fill="#1A1A2E" r="4.5"></circle>
+<circle cx="310" cy="80" fill="#FFFFFF" r="1.5"></circle>
+<circle cx="334" cy="80" fill="#FFFFFF" r="1.5"></circle>
+<!-- Rosy Cheeks -->
+<ellipse cx="301" cy="91" fill="#FF6B6B" opacity="0.8" rx="5" ry="3.5"></ellipse>
+<ellipse cx="339" cy="91" fill="#FF6B6B" opacity="0.8" rx="5" ry="3.5"></ellipse>
+<!-- Smile -->
+<path d="M312 92 Q320 101 328 92" fill="none" stroke="#1A1A2E" stroke-linecap="round" stroke-width="3.5"></path>
+</g>
+<!-- ELEMENT 2: CLOUD 1 (GREY WAITING FOR COLOR) -->
+<g class="cursor-pointer" id="element-cloud" onclick="toggleElementColor('cloud', 70, 75, event)" transform="translate(15, 45)">
+<!-- Pulsing touch invite ring -->
+<circle class="pulse-ring" cx="65" cy="30" fill="none" opacity="0.7" r="44" stroke="#54C8FF" stroke-dasharray="7 7" stroke-width="4"></circle>
+<!-- Grey Cloud body -->
+<g id="cloud-visual">
+<path d="M30 45 H105 A22 22 0 0 0 105 10 A26 26 0 0 0 55 5 A22 22 0 0 0 30 45 Z" fill="#C8C8D4" filter="url(#cartoon-drop)" id="cloud-body" stroke="#1A1A2E" stroke-linejoin="round" stroke-width="4"></path>
+<!-- Cute sleeping or smiling eyes in dark navy -->
+<path d="M52 24 Q57 28 62 24" fill="none" stroke="#1A1A2E" stroke-linecap="round" stroke-width="3"></path>
+<path d="M78 24 Q83 28 88 24" fill="none" stroke="#1A1A2E" stroke-linecap="round" stroke-width="3"></path>
+</g>
+<!-- Little droplet tap badge hint -->
+<g class="animate-gentle-bounce" transform="translate(90, -5)">
+<circle cx="12" cy="12" fill="#54C8FF" r="12" stroke="#1A1A2E" stroke-width="3"></circle>
+<path d="M12 5 C9 9 7 12 7 14.5 A5 5 0 0 0 17 14.5 C17 12 15 9 12 5 Z" fill="#FFFFFF"></path>
+</g>
+</g>
+<!-- Distant Soft Grey Hill -->
+<path d="M-30 330 Q90 260 210 300 T430 295 L430 600 L-30 600 Z" fill="#A8A8B8" stroke="#1A1A2E" stroke-width="4"></path>
+<!-- Midground Soft Hill (Light cloudy purple/grey) -->
+<path d="M-20 380 Q100 325 240 370 T430 365 L430 600 L-20 600 Z" fill="#909099" stroke="#1A1A2E" stroke-width="4"></path>
+<!-- Foreground Hill (Already starting to turn green near the tree!) -->
+<path d="M-20 440 Q130 395 280 435 T430 430 L430 600 L-20 600 Z" fill="#60A86E" id="front-ground" stroke="#1A1A2E" stroke-width="4.5"></path>
+<!-- ================= ELEMENT 3: FRIENDLY TREE (RESTORED - Grass Green #4CD964) ================= -->
+<g class="cursor-pointer" id="element-tree" onclick="splatColor('tree', 95, 300, event)" transform="translate(16, 175)">
+<!-- Wooden Trunk with cute bark swirl -->
+<path d="M64 240 Q70 160 60 115 Q86 115 94 160 Q92 205 104 240 Z" fill="#8B572A" stroke="#1A1A2E" stroke-linejoin="round" stroke-width="4.5"></path>
+<path d="M76 170 Q82 178 78 186" fill="none" stroke="#5C3818" stroke-linecap="round" stroke-width="3"></path>
+<!-- Canopy Clouds (Vibrant Grass Green #4CD964 + Mint highlights) -->
+<g filter="url(#cartoon-drop)">
+<circle cx="50" cy="98" fill="#4CD964" r="44" stroke="#1A1A2E" stroke-width="4.5"></circle>
+<circle cx="106" cy="95" fill="#4CD964" r="40" stroke="#1A1A2E" stroke-width="4.5"></circle>
+<circle cx="78" cy="55" fill="#58E570" r="48" stroke="#1A1A2E" stroke-width="4.5"></circle>
+</g>
+<!-- Glossy highlight patches -->
+<ellipse cx="64" cy="40" fill="#A6FFB4" rx="14" ry="6" transform="rotate(-20 64 40)"></ellipse>
+<ellipse cx="38" cy="90" fill="#A6FFB4" rx="10" ry="4" transform="rotate(-35 38 90)"></ellipse>
+<!-- Cute Cartoon Face on the Tree -->
+<circle cx="68" cy="68" fill="#1A1A2E" r="4.5"></circle>
+<circle cx="92" cy="68" fill="#1A1A2E" r="4.5"></circle>
+<circle cx="70" cy="66" fill="#FFFFFF" r="1.5"></circle>
+<circle cx="94" cy="66" fill="#FFFFFF" r="1.5"></circle>
+<ellipse cx="60" cy="76" fill="#FF8AAE" opacity="0.85" rx="5" ry="3"></ellipse>
+<ellipse cx="98" cy="76" fill="#FF8AAE" opacity="0.85" rx="5" ry="3"></ellipse>
+<path d="M74 76 Q80 84 86 76" fill="none" stroke="#1A1A2E" stroke-linecap="round" stroke-width="3.5"></path>
+<!-- Juicy Red Apples with Glossy white shines (#FF6B6B) -->
+<g>
+<!-- Apple 1 -->
+<circle cx="48" cy="52" fill="#FF6B6B" r="9" stroke="#1A1A2E" stroke-width="2.5"></circle>
+<circle cx="46" cy="50" fill="#FFFFFF" r="2.5"></circle>
+<!-- Apple 2 -->
+<circle cx="114" cy="66" fill="#FF6B6B" r="9" stroke="#1A1A2E" stroke-width="2.5"></circle>
+<circle cx="112" cy="64" fill="#FFFFFF" r="2.5"></circle>
+<!-- Apple 3 -->
+<circle cx="98" cy="116" fill="#FFD23F" r="8.5" stroke="#1A1A2E" stroke-width="2.5"></circle>
+<circle cx="96" cy="114" fill="#FFFFFF" r="2.5"></circle>
+</g>
+<!-- Completed Sparkles -->
+<polygon class="animate-star" fill="#FFD23F" points="128,40 131,48 139,51 131,54 128,62 125,54 117,51 125,48" stroke="#1A1A2E" stroke-width="2"></polygon>
+</g>
+<!-- ================= ELEMENT 4: ANTHROPOMORPHIC COTTAGE (PARTLY RESTORED / ACTIVE TARGET) ================= -->
+<g class="cursor-pointer" id="element-cottage" onclick="toggleElementColor('house', 280, 360, event)" transform="translate(192, 275)">
+<!-- Bouncing Pulsing Ring showing toddler WHERE to tap -->
+<circle class="pulse-ring" cx="75" cy="85" fill="none" opacity="0.8" r="75" stroke="#FF6B6B" stroke-dasharray="10 10" stroke-width="5"></circle>
+<!-- Chimney with friendly puff of smoke -->
+<rect fill="#FF6B6B" height="38" rx="6" stroke="#1A1A2E" stroke-width="4" width="24" x="94" y="2"></rect>
+<!-- Puffy smoke cloud -->
+<circle cx="106" cy="-10" fill="#FFFFFF" r="10" stroke="#1A1A2E" stroke-width="3"></circle>
+<circle cx="118" cy="-24" fill="#FFFFFF" r="14" stroke="#1A1A2E" stroke-width="3"></circle>
+<!-- Cottage Body (Warm Cream / Soft Grey transition) -->
+<rect fill="#FFF4DD" filter="url(#cartoon-drop)" height="98" id="cottage-walls" rx="20" stroke="#1A1A2E" stroke-width="4.5" width="122" x="14" y="48"></rect>
+<!-- Warm Coral Red Roof (#FF6B6B) - Already Restored! -->
+<path d="M5 54 Q75 10 145 54 L132 58 Q75 22 18 58 Z" fill="#FF6B6B" stroke="#1A1A2E" stroke-linejoin="round" stroke-width="4.5"></path>
+<path d="M8 52 Q75 14 142 52" fill="none" stroke="#FFA4A4" stroke-linecap="round" stroke-width="3"></path>
+<!-- Big Eye-Windows (Anthropomorphic Cute Face) -->
+<!-- Left Eye Window -->
+<g>
+<circle cx="45" cy="82" fill="#54C8FF" r="17" stroke="#1A1A2E" stroke-width="4"></circle>
+<circle cx="45" cy="82" fill="#1A1A2E" r="6"></circle>
+<circle cx="48" cy="79" fill="#FFFFFF" r="2.5"></circle>
+<line stroke="#1A1A2E" stroke-width="2.5" x1="28" x2="62" y1="82" y2="82"></line>
+<line stroke="#1A1A2E" stroke-width="2.5" x1="45" x2="45" y1="65" y2="99"></line>
+</g>
+<!-- Right Eye Window -->
+<g>
+<circle cx="105" cy="82" fill="#54C8FF" r="17" stroke="#1A1A2E" stroke-width="4"></circle>
+<circle cx="105" cy="82" fill="#1A1A2E" r="6"></circle>
+<circle cx="108" cy="79" fill="#FFFFFF" r="2.5"></circle>
+<line stroke="#1A1A2E" stroke-width="2.5" x1="88" x2="122" y1="82" y2="82"></line>
+<line stroke="#1A1A2E" stroke-width="2.5" x1="105" x2="105" y1="65" y2="99"></line>
+</g>
+<!-- Sunny Yellow Arched Door (The Smile) -->
+<path d="M60 146 V108 A15 15 0 0 1 90 108 V146 Z" fill="#FFD23F" id="cottage-door" stroke="#1A1A2E" stroke-width="4"></path>
+<circle cx="84" cy="125" fill="#1A1A2E" r="3.5"></circle>
+<!-- Rosy Cheeks on the house -->
+<ellipse cx="32" cy="98" fill="#FF6B6B" opacity="0.75" rx="6" ry="4"></ellipse>
+<ellipse cx="118" cy="98" fill="#FF6B6B" opacity="0.75" rx="6" ry="4"></ellipse>
+<!-- ACTIVE GLOWING TAP TARGET INDICATOR BADGE -->
+<g class="animate-wiggle" transform="translate(62, 70)">
+<circle cx="14" cy="14" fill="#FFD23F" filter="url(#soft-glow)" r="18" stroke="#1A1A2E" stroke-width="3.5"></circle>
+<!-- Paint droplet splatter icon -->
+<path d="M14 6 C10 11 8 14.5 8 18 A6 6 0 0 0 20 18 C20 14.5 18 11 14 6 Z" fill="#FF6B6B"></path>
+<circle cx="11" cy="17" fill="#FFFFFF" r="1.5"></circle>
+</g>
+</g>
+<!-- ================= ELEMENT 5: PICKET FENCE & FLOWER GARDEN (Grey waiting for color) ================= -->
+<g class="cursor-pointer" id="element-flowers" onclick="toggleElementColor('flowers', 170, 485, event)" transform="translate(25, 435)">
+<!-- Friendly cartoon picket fence in soft grey -->
+<g id="fence-visual" opacity="0.95">
+<!-- Picket 1 -->
+<path d="M110 35 L118 25 L126 35 V62 H110 Z" fill="#C8C8D4" stroke="#1A1A2E" stroke-width="3"></path>
+<!-- Picket 2 -->
+<path d="M132 35 L140 25 L148 35 V62 H132 Z" fill="#C8C8D4" stroke="#1A1A2E" stroke-width="3"></path>
+<!-- Picket 3 -->
+<path d="M154 35 L162 25 L170 35 V62 H154 Z" fill="#C8C8D4" stroke="#1A1A2E" stroke-width="3"></path>
+<!-- Crossbars -->
+<rect fill="#A8A8B8" height="7" rx="3" stroke="#1A1A2E" stroke-width="2.5" width="70" x="105" y="38"></rect>
+<rect fill="#A8A8B8" height="7" rx="3" stroke="#1A1A2E" stroke-width="2.5" width="70" x="105" y="52"></rect>
+</g>
+<!-- FLOWER STEMS & BUDS (Soft Grey waiting for explosive bloom) -->
+<!-- Flower 1: Left Tulip -->
+<g id="flower-1">
+<path d="M30 65 Q33 42 38 25" fill="none" stroke="#1A1A2E" stroke-linecap="round" stroke-width="4"></path>
+<path d="M30 45 Q20 40 24 32" fill="none" stroke="#1A1A2E" stroke-width="3"></path>
+<circle cx="38" cy="22" fill="#C8C8D4" r="15" stroke="#1A1A2E" stroke-width="3.5"></circle>
+<circle cx="38" cy="22" fill="#A8A8B8" r="6"></circle>
+</g>
+<!-- Flower 2: Center Daisy -->
+<g id="flower-2">
+<path d="M75 68 Q72 45 70 26" fill="none" stroke="#1A1A2E" stroke-linecap="round" stroke-width="4"></path>
+<circle cx="70" cy="22" fill="#C8C8D4" r="16" stroke="#1A1A2E" stroke-width="3.5"></circle>
+<circle cx="70" cy="22" fill="#A8A8B8" r="7"></circle>
+</g>
+<!-- Flower 3: Right Bell -->
+<g id="flower-3">
+<path d="M210 65 Q218 42 222 28" fill="none" stroke="#1A1A2E" stroke-linecap="round" stroke-width="4"></path>
+<circle cx="222" cy="24" fill="#C8C8D4" r="15" stroke="#1A1A2E" stroke-width="3.5"></circle>
+<circle cx="222" cy="24" fill="#A8A8B8" r="6"></circle>
+</g>
+<!-- Tap badge on flowers -->
+<g class="animate-gentle-bounce" transform="translate(60, 0)">
+<circle cx="10" cy="10" fill="#FF4081" r="10" stroke="#1A1A2E" stroke-width="2.5"></circle>
+<circle cx="10" cy="10" fill="#FFFFFF" r="4"></circle>
+</g>
+</g>
+<!-- ================= COLOR THIEF CHARACTER PEEKING FROM BEHIND THE HILL! ================= -->
+<!-- Cheerful mischievous fuzzy thief peeking with a magic paintbrush -->
+<g class="cursor-pointer" id="character-thief" onclick="splatColor('thief', 340, 400, event)" transform="translate(305, 360)">
+<!-- Fuzzy purple thief head peeking -->
+<ellipse cx="26" cy="30" fill="#C77DFF" rx="28" ry="24" stroke="#1A1A2E" stroke-width="4"></ellipse>
+<!-- Cute pointed ears/horns -->
+<path d="M6 14 Q2 0 16 8 Z" fill="#9D4EDD" stroke="#1A1A2E" stroke-width="3.5"></path>
+<path d="M46 14 Q50 0 36 8 Z" fill="#9D4EDD" stroke="#1A1A2E" stroke-width="3.5"></path>
+<!-- Thief bandit mask -->
+<path d="M0 26 Q26 20 52 26 Q45 38 26 38 Q7 38 0 26 Z" fill="#1A1A2E"></path>
+<!-- Big playful eyes inside mask -->
+<ellipse cx="16" cy="28" fill="#FFFFFF" rx="6" ry="7"></ellipse>
+<circle cx="18" cy="28" fill="#1A1A2E" r="3.5"></circle>
+<circle cx="19" cy="26" fill="#FFFFFF" r="1.5"></circle>
+<ellipse cx="36" cy="28" fill="#FFFFFF" rx="6" ry="7"></ellipse>
+<circle cx="38" cy="28" fill="#1A1A2E" r="3.5"></circle>
+<circle cx="39" cy="26" fill="#FFFFFF" r="1.5"></circle>
+<!-- Mischievous grin -->
+<path d="M20 42 Q26 48 32 42" fill="none" stroke="#1A1A2E" stroke-linecap="round" stroke-width="3"></path>
+<!-- Magic Paintbrush held up high -->
+<g transform="translate(-16, -10) rotate(-25 10 10)">
+<!-- Brush handle -->
+<rect fill="#FFD23F" height="32" rx="4" stroke="#1A1A2E" stroke-width="2.5" width="8" x="8" y="10"></rect>
+<!-- Metal ferrule -->
+<rect fill="#C8C8D4" height="7" stroke="#1A1A2E" stroke-width="2" width="10" x="7" y="5"></rect>
+<!-- Tip loaded with glowing Mint Paint -->
+<path d="M7 5 Q12 -6 17 5 Z" fill="#00E5CC" stroke="#1A1A2E" stroke-width="2.5"></path>
+<!-- Dripping paint star -->
+<polygon class="animate-star" fill="#00E5CC" points="12,-12 14,-6 20,-4 14,-2 12,4 10,-2 4,-4 10,-6" stroke="#1A1A2E" stroke-width="1.5"></polygon>
+</g>
+</g>
+</svg>
+<!-- Idle toddler finger guide prompt overlay -->
+<div class="absolute pointer-events-none transition-transform duration-500 z-40" id="hand-hint" style="top: 360px; left: 245px;">
+<div class="relative flex items-center justify-center animate-wiggle">
+<!-- Big pulsing yellow halo -->
+<div class="absolute w-16 h-16 rounded-full bg-[#FFD23F]/50 animate-ping"></div>
+<!-- Bubbly Hand Pointer Badge -->
+<div class="w-14 h-14 rounded-full bg-white border-chunky shadow-chunky flex items-center justify-center text-[#1A1A2E]">
+<span class="material-symbols-outlined text-[32px] font-black text-[#FF6B6B]">touch_app</span>
+</div>
+</div>
+</div>
+</main>
+<!-- ================= 3. COLOR PALETTE DOCK (Bottom Container, Tactile 80x80px Orbs) ================= -->
+<footer class="w-full bg-[#FFF9F0] border-t-[5px] border-[#1A1A2E] px-6 pt-4 pb-9 z-40 rounded-t-[40px] shadow-[0_-10px_25px_rgba(26,26,46,0.12)] flex flex-col items-center">
+<!-- Tactile pull pill handle -->
+<div class="w-14 h-2 rounded-full bg-[#E2DACB] border-2 border-[#1A1A2E] mb-4"></div>
+<!-- Color Palette: 3 Large Juicy Tactile Paint Orbs (Min 80x80px, 24px spacing) -->
+<div class="flex items-center justify-center gap-6 w-full max-w-sm">
+<!-- ORB 1: SUNSHINE YELLOW (#FFD23F) - COMPLETED / STAR BADGE -->
+<button aria-label="Sunshine Yellow" class="group relative flex flex-col items-center focus:outline-none cursor-pointer active:scale-95 transition-transform" onclick="selectOrb(this, '#FFD23F')">
+<div class="w-[82px] h-[82px] rounded-full bg-gradient-to-b from-[#FFF275] via-[#FFD23F] to-[#E6B800] border-chunky shadow-chunky flex items-center justify-center relative overflow-hidden">
+<!-- 3D Glossy Shine Bubble -->
+<div class="absolute top-2 left-3.5 w-7 h-4 rounded-full bg-white/80 rotate-[-30deg]"></div>
+<!-- Inner sparkle highlight -->
+<div class="absolute bottom-2.5 right-3.5 w-2.5 h-2.5 rounded-full bg-white/60"></div>
+</div>
+<!-- Star/Checkmark Badge for Completed -->
+<div class="absolute -top-1.5 -right-1.5 w-8 h-8 rounded-full bg-[#4CD964] border-chunky shadow-chunky-sm flex items-center justify-center">
+<span class="material-symbols-outlined text-white text-[18px] font-black">check</span>
+</div>
+</button>
+<!-- ORB 2: GRASS GREEN (#4CD964) - ACTIVE PULSING SELECTION -->
+<button aria-label="Grass Green" class="group relative flex flex-col items-center focus:outline-none cursor-pointer active:scale-95 transition-transform" onclick="selectOrb(this, '#4CD964')">
+<!-- Active Pulsing highlight ring -->
+<div class="absolute -inset-2 rounded-full bg-[#4CD964]/30 animate-ping pointer-events-none"></div>
+<div class="w-[82px] h-[82px] rounded-full bg-gradient-to-b from-[#6FF285] via-[#4CD964] to-[#2BA841] border-[5px] border-[#1A1A2E] shadow-chunky-lg flex items-center justify-center relative overflow-hidden ring-4 ring-[#4CD964]">
+<!-- 3D Glossy Shine Bubble -->
+<div class="absolute top-2 left-3.5 w-7 h-4 rounded-full bg-white/80 rotate-[-30deg]"></div>
+<div class="absolute bottom-2.5 right-3.5 w-2.5 h-2.5 rounded-full bg-white/60"></div>
+</div>
+<!-- Active Paintbrush badge -->
+<div class="absolute -bottom-1 -right-1 w-8 h-8 rounded-full bg-[#FFD23F] border-chunky shadow-chunky-sm flex items-center justify-center">
+<span class="material-symbols-outlined text-[#1A1A2E] text-[18px] font-black">brush</span>
+</div>
+</button>
+<!-- ORB 3: CORAL RED (#FF6B6B) - READY TO BE TAPPED -->
+<button aria-label="Coral Red" class="group relative flex flex-col items-center focus:outline-none cursor-pointer active:scale-95 transition-transform" onclick="selectOrb(this, '#FF6B6B')">
+<div class="w-[82px] h-[82px] rounded-full bg-gradient-to-b from-[#FF8E8E] via-[#FF6B6B] to-[#D93838] border-chunky shadow-chunky flex items-center justify-center relative overflow-hidden">
+<!-- 3D Glossy Shine Bubble -->
+<div class="absolute top-2 left-3.5 w-7 h-4 rounded-full bg-white/80 rotate-[-30deg]"></div>
+<div class="absolute bottom-2.5 right-3.5 w-2.5 h-2.5 rounded-full bg-white/60"></div>
+</div>
+<!-- Droplet Badge -->
+<div class="absolute -top-1.5 -right-1.5 w-8 h-8 rounded-full bg-[#54C8FF] border-chunky shadow-chunky-sm flex items-center justify-center">
+<span class="material-symbols-outlined text-[#1A1A2E] text-[18px] font-black">water_drop</span>
+</div>
+</button>
+</div>
+</footer>
+<div class="absolute inset-0 z-50 bg-[#1A1A2E]/70 backdrop-blur-md flex flex-col justify-between overflow-hidden animate-gentle-bounce" id="coloring-modal-overlay"><div class="w-full pt-10 pb-3 px-5 flex items-center justify-between bg-white/90 border-b-[4px] border-[#1A1A2E]"><button aria-label="Close modal" class="w-14 h-14 rounded-[22px] bg-[#FFF9F0] border-chunky shadow-chunky flex items-center justify-center text-[#1A1A2E] active:scale-95 transition-transform cursor-pointer" onclick="document.getElementById('coloring-modal-overlay').remove()"><span class="material-symbols-outlined text-[32px] font-black text-[#1A1A2E]">close</span></button><div class="flex flex-col items-center"><span class="font-fredoka text-[22px] font-bold tracking-wide text-[#1A1A2E] drop-shadow-[0_2px_0px_rgba(255,210,63,0.8)]">COLOR ME!</span><span class="text-[13px] font-bold text-[#594139] font-fredoka">Tap to fill magic colors</span></div><div class="flex items-center gap-2"><button aria-label="Undo color" class="w-14 h-14 rounded-[22px] bg-[#FFF9F0] border-chunky shadow-chunky flex items-center justify-center text-[#1A1A2E] active:scale-95 transition-transform cursor-pointer" onclick="playPopSound(420, 'triangle')"><span class="material-symbols-outlined text-[28px] font-black text-[#8d7168]">undo</span></button><button aria-label="Finish coloring" class="w-14 h-14 rounded-[22px] bg-[#4CD964] border-chunky shadow-chunky flex items-center justify-center text-white active:scale-95 transition-transform cursor-pointer" onclick="playPopSound(880, 'sine'); setTimeout(() =&gt; document.getElementById('coloring-modal-overlay').remove(), 250)"><span class="material-symbols-outlined text-[32px] font-black text-white">check</span></button></div></div><div class="flex-1 w-full flex items-center justify-center p-4 relative"><div class="w-full max-w-[340px] aspect-[4/5] bg-[#FFF9F0] rounded-[32px] border-chunky shadow-chunky-lg p-3.5 relative flex items-center justify-center overflow-hidden"><div class="absolute top-3 left-4 flex items-center gap-1.5 bg-[#FFD23F] px-3 py-1 rounded-full border-2 border-[#1A1A2E] shadow-chunky-sm"><span class="material-symbols-outlined text-[16px] text-[#1A1A2E] font-black">auto_awesome</span><span class="font-fredoka text-[12px] font-bold text-[#1A1A2E]">Butterfly Friend</span></div><svg class="w-full h-full" viewBox="0 0 300 320" xmlns="http://www.w3.org/2000/svg"><g transform="translate(150, 160)"><path d="M-18 -15 C-60 -95, -125 -75, -125 -25 C-125 25, -55 5, -18 10 Z" fill="#FFFFFF" stroke="#1A1A2E" stroke-width="4.5" stroke-dasharray="6 4" class="cursor-pointer hover:fill-[#FFD23F]/30 transition-all" onclick="this.setAttribute('fill', '#FFD23F'); this.removeAttribute('stroke-dasharray'); playPopSound(660, 'sine')"></path><circle cx="-70" cy="-35" r="16" fill="#F5F2FF" stroke="#1A1A2E" stroke-width="3.5" stroke-dasharray="4 3" class="cursor-pointer hover:fill-[#FF6B6B]/40 transition-all" onclick="this.setAttribute('fill', '#FF6B6B'); this.removeAttribute('stroke-dasharray'); playPopSound(720, 'sine')"></circle><path d="M18 -15 C60 -95, 125 -75, 125 -25 C125 25, 55 5, 18 10 Z" fill="#FFFFFF" stroke="#1A1A2E" stroke-width="4.5" stroke-dasharray="6 4" class="cursor-pointer hover:fill-[#FFD23F]/30 transition-all" onclick="this.setAttribute('fill', '#FFD23F'); this.removeAttribute('stroke-dasharray'); playPopSound(660, 'sine')"></path><circle cx="70" cy="-35" r="16" fill="#F5F2FF" stroke="#1A1A2E" stroke-width="3.5" stroke-dasharray="4 3" class="cursor-pointer hover:fill-[#FF6B6B]/40 transition-all" onclick="this.setAttribute('fill', '#FF6B6B'); this.removeAttribute('stroke-dasharray'); playPopSound(720, 'sine')"></circle><path d="M-14 12 C-55 25, -95 65, -70 100 C-45 125, -15 80, -10 35 Z" fill="#FFFFFF" stroke="#1A1A2E" stroke-width="4.5" stroke-dasharray="6 4" class="cursor-pointer hover:fill-[#54C8FF]/30 transition-all" onclick="this.setAttribute('fill', '#54C8FF'); this.removeAttribute('stroke-dasharray'); playPopSound(600, 'sine')"></path><circle cx="-45" cy="65" r="11" fill="#F5F2FF" stroke="#1A1A2E" stroke-width="3" stroke-dasharray="4 3" class="cursor-pointer hover:fill-[#4CD964]/40 transition-all" onclick="this.setAttribute('fill', '#4CD964'); this.removeAttribute('stroke-dasharray'); playPopSound(680, 'sine')"></circle><path d="M14 12 C55 25, 95 65, 70 100 C45 125, 15 80, 10 35 Z" fill="#FFFFFF" stroke="#1A1A2E" stroke-width="4.5" stroke-dasharray="6 4" class="cursor-pointer hover:fill-[#54C8FF]/30 transition-all" onclick="this.setAttribute('fill', '#54C8FF'); this.removeAttribute('stroke-dasharray'); playPopSound(600, 'sine')"></path><circle cx="45" cy="65" r="11" fill="#F5F2FF" stroke="#1A1A2E" stroke-width="3" stroke-dasharray="4 3" class="cursor-pointer hover:fill-[#4CD964]/40 transition-all" onclick="this.setAttribute('fill', '#4CD964'); this.removeAttribute('stroke-dasharray'); playPopSound(680, 'sine')"></circle><path d="M-8 -38 Q-28 -72 -42 -64" fill="none" stroke="#1A1A2E" stroke-width="4" stroke-linecap="round"></path><circle cx="-42" cy="-64" r="6" fill="#FF6B6B" stroke="#1A1A2E" stroke-width="3"></circle><path d="M8 -38 Q28 -72 42 -64" fill="none" stroke="#1A1A2E" stroke-width="4" stroke-linecap="round"></path><circle cx="42" cy="-64" r="6" fill="#FF6B6B" stroke="#1A1A2E" stroke-width="3"></circle><ellipse cx="0" cy="20" rx="16" ry="52" fill="#C77DFF" stroke="#1A1A2E" stroke-width="4.5"></ellipse><circle cx="0" cy="-28" r="22" fill="#FFD23F" stroke="#1A1A2E" stroke-width="4.5"></circle><circle cx="-7" cy="-30" r="3.5" fill="#1A1A2E"></circle><circle cx="7" cy="-30" r="3.5" fill="#1A1A2E"></circle><circle cx="-5.5" cy="-32" r="1.5" fill="#FFFFFF"></circle><circle cx="8.5" cy="-32" r="1.5" fill="#FFFFFF"></circle><ellipse cx="-11" cy="-23" rx="4" ry="2.5" fill="#FF6B6B" opacity="0.8"></ellipse><ellipse cx="11" cy="-23" rx="4" ry="2.5" fill="#FF6B6B" opacity="0.8"></ellipse><path d="M-6 -22 Q0 -16 6 -22" fill="none" stroke="#1A1A2E" stroke-width="3" stroke-linecap="round"></path></g></svg><div class="absolute bottom-3 right-4 flex items-center gap-1 bg-white/90 border-2 border-[#1A1A2E] px-2.5 py-1 rounded-full animate-wiggle"><span class="material-symbols-outlined text-[16px] text-[#FF6B6B] font-black">touch_app</span><span class="font-fredoka text-[11px] font-bold text-[#1A1A2E]">Tap dotted areas</span></div></div></div><div class="w-full bg-[#FFF9F0] border-t-[5px] border-[#1A1A2E] px-4 pt-3 pb-8 z-40 rounded-t-[36px] shadow-[0_-10px_25px_rgba(26,26,46,0.12)] flex flex-col items-center"><div class="w-14 h-2 rounded-full bg-[#E2DACB] border-2 border-[#1A1A2E] mb-3"></div><div class="flex items-center gap-3.5 overflow-x-auto w-full max-w-full px-2 py-1 justify-start"><button aria-label="Sunshine Yellow" class="relative flex-shrink-0 focus:outline-none cursor-pointer active:scale-95 transition-transform" onclick="selectOrb(this, '#FFD23F')"><div class="w-[82px] h-[82px] rounded-full bg-gradient-to-b from-[#FFF275] via-[#FFD23F] to-[#E6B800] border-[5px] border-[#1A1A2E] shadow-chunky-lg flex items-center justify-center relative overflow-hidden ring-4 ring-[#FFD23F]"><div class="absolute top-2 left-3.5 w-7 h-4 rounded-full bg-white/80 rotate-[-30deg]"></div><div class="absolute bottom-2.5 right-3.5 w-2.5 h-2.5 rounded-full bg-white/60"></div></div><div class="absolute -bottom-1 -right-1 w-8 h-8 rounded-full bg-[#1A1A2E] border-2 border-white shadow-chunky-sm flex items-center justify-center"><span class="material-symbols-outlined text-white text-[18px] font-black">brush</span></div></button><button aria-label="Sky Blue" class="relative flex-shrink-0 focus:outline-none cursor-pointer active:scale-95 transition-transform" onclick="selectOrb(this, '#54C8FF')"><div class="w-[82px] h-[82px] rounded-full bg-[#54C8FF] border-chunky shadow-chunky flex items-center justify-center relative overflow-hidden"><div class="absolute top-2 left-3.5 w-7 h-4 rounded-full bg-white/80 rotate-[-30deg]"></div><div class="absolute bottom-2.5 right-3.5 w-2.5 h-2.5 rounded-full bg-white/60"></div></div></button><button aria-label="Grass Green" class="relative flex-shrink-0 focus:outline-none cursor-pointer active:scale-95 transition-transform" onclick="selectOrb(this, '#4CD964')"><div class="w-[82px] h-[82px] rounded-full bg-[#4CD964] border-chunky shadow-chunky flex items-center justify-center relative overflow-hidden"><div class="absolute top-2 left-3.5 w-7 h-4 rounded-full bg-white/80 rotate-[-30deg]"></div><div class="absolute bottom-2.5 right-3.5 w-2.5 h-2.5 rounded-full bg-white/60"></div></div></button><button aria-label="Coral Red" class="relative flex-shrink-0 focus:outline-none cursor-pointer active:scale-95 transition-transform" onclick="selectOrb(this, '#FF6B6B')"><div class="w-[82px] h-[82px] rounded-full bg-gradient-to-b from-[#FF8E8E] via-[#FF6B6B] to-[#D93838] border-chunky shadow-chunky flex items-center justify-center relative overflow-hidden"><div class="absolute top-2 left-3.5 w-7 h-4 rounded-full bg-white/80 rotate-[-30deg]"></div><div class="absolute bottom-2.5 right-3.5 w-2.5 h-2.5 rounded-full bg-white/60"></div></div></button><button aria-label="Lavender" class="relative flex-shrink-0 focus:outline-none cursor-pointer active:scale-95 transition-transform" onclick="selectOrb(this, '#C77DFF')"><div class="w-[82px] h-[82px] rounded-full bg-[#C77DFF] border-chunky shadow-chunky flex items-center justify-center relative overflow-hidden"><div class="absolute top-2 left-3.5 w-7 h-4 rounded-full bg-white/80 rotate-[-30deg]"></div><div class="absolute bottom-2.5 right-3.5 w-2.5 h-2.5 rounded-full bg-white/60"></div></div></button><button aria-label="Mint" class="relative flex-shrink-0 focus:outline-none cursor-pointer active:scale-95 transition-transform" onclick="selectOrb(this, '#00E5CC')"><div class="w-[82px] h-[82px] rounded-full bg-[#00E5CC] border-chunky shadow-chunky flex items-center justify-center relative overflow-hidden"><div class="absolute top-2 left-3.5 w-7 h-4 rounded-full bg-white/80 rotate-[-30deg]"></div><div class="absolute bottom-2.5 right-3.5 w-2.5 h-2.5 rounded-full bg-white/60"></div></div></button><button aria-label="Hot Pink" class="relative flex-shrink-0 focus:outline-none cursor-pointer active:scale-95 transition-transform" onclick="selectOrb(this, '#FF4081')"><div class="w-[82px] h-[82px] rounded-full bg-[#FF4081] border-chunky shadow-chunky flex items-center justify-center relative overflow-hidden"><div class="absolute top-2 left-3.5 w-7 h-4 rounded-full bg-white/80 rotate-[-30deg]"></div><div class="absolute bottom-2.5 right-3.5 w-2.5 h-2.5 rounded-full bg-white/60"></div></div></button></div></div></div></div>
+<!-- ================= 4. AUDIO-VISUAL GAMEPLAY INTERACTION ================= -->
+<script>
+    let restoredCount = 3;
+    const totalTargets = 6;
+    let houseColored = false;
+    let cloudColored = false;
+    let flowersColored = false;
+
+    // Toddler audio pops using HTML5 Web Audio API synthesizers
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+    function playPopSound(freq = 440, type = 'sine') {
+      if (audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.type = type;
+      osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(freq * 1.6, audioCtx.currentTime + 0.12);
+      
+      gain.gain.setValueAtTime(0.35, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.18);
+
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      osc.start();
+      osc.stop(audioCtx.currentTime + 0.19);
+    }
+
+    function popButton(btn) {
+      playPopSound(520, 'triangle');
+      btn.style.transform = 'scale(0.9)';
+      setTimeout(() => btn.style.transform = '', 150);
+    }
+
+    function selectOrb(btn, color) {
+      playPopSound(587, 'sine');
+      btn.style.transform = 'scale(1.15)';
+      setTimeout(() => btn.style.transform = '', 200);
+    }
+
+    // Sparkle Particle Splatter effect
+    function createSplatters(x, y, palette) {
+      const container = document.getElementById('splat-overlay');
+      const colors = palette || ['#FFD23F', '#4CD964', '#FF6B6B', '#54C8FF', '#FF4081', '#00E5CC'];
+      const count = 22;
+
+      for (let i = 0; i < count; i++) {
+        const p = document.createElement('div');
+        p.className = 'splat-particle';
+
+        const size = Math.floor(Math.random() * 14) + 10;
+        const color = colors[Math.floor(Math.random() * colors.length)];
+        const angle = Math.random() * Math.PI * 2;
+        const distance = Math.floor(Math.random() * 110) + 40;
+        const dx = Math.cos(angle) * distance;
+        const dy = Math.sin(angle) * distance;
+
+        p.style.width = `${size}px`;
+        p.style.height = `${size}px`;
+        p.style.backgroundColor = color;
+        p.style.border = '2.5px solid #1A1A2E';
+        p.style.left = `${x - size / 2}px`;
+        p.style.top = `${y - size / 2}px`;
+        p.style.setProperty('--dx', `${dx}px`);
+        p.style.setProperty('--dy', `${dy}px`);
+
+        container.appendChild(p);
+
+        setTimeout(() => p.remove(), 850);
+      }
+    }
+
+    function splatColor(type, defaultX, defaultY, event) {
+      playPopSound(660, 'sine');
+      const containerRect = document.getElementById('interactive-stage').getBoundingClientRect();
+      const clickX = event ? (event.clientX - containerRect.left) : defaultX;
+      const clickY = event ? (event.clientY - containerRect.top) : defaultY;
+
+      createSplatters(clickX, clickY, ['#FFD23F', '#FF6B6B', '#4CD964', '#54C8FF']);
+    }
+
+    function toggleElementColor(elementName, defaultX, defaultY, event) {
+      playPopSound(720, 'triangle');
+
+      // Dismiss toddler hand hint on any active click
+      const hand = document.getElementById('hand-hint');
+      if (hand) hand.style.display = 'none';
+
+      const containerRect = document.getElementById('interactive-stage').getBoundingClientRect();
+      const clickX = event ? (event.clientX - containerRect.left) : defaultX;
+      const clickY = event ? (event.clientY - containerRect.top) : defaultY;
+
+      if (elementName === 'house') {
+        const walls = document.getElementById('cottage-walls');
+        const door = document.getElementById('cottage-door');
+        if (!houseColored) {
+          walls.setAttribute('fill', '#FFE27A');
+          door.setAttribute('fill', '#54C8FF');
+          houseColored = true;
+          restoredCount = Math.min(6, restoredCount + 1);
+          createSplatters(clickX, clickY, ['#FF6B6B', '#FFD23F', '#54C8FF']);
+        } else {
+          walls.setAttribute('fill', '#FFF4DD');
+          door.setAttribute('fill', '#FFD23F');
+          houseColored = false;
+          restoredCount = Math.max(3, restoredCount - 1);
+        }
+      } else if (elementName === 'cloud') {
+        const body = document.getElementById('cloud-body');
+        if (!cloudColored) {
+          body.setAttribute('fill', '#FFFFFF');
+          cloudColored = true;
+          restoredCount = Math.min(6, restoredCount + 1);
+          createSplatters(clickX, clickY, ['#54C8FF', '#FFFFFF', '#00E5CC']);
+        } else {
+          body.setAttribute('fill', '#C8C8D4');
+          cloudColored = false;
+          restoredCount = Math.max(3, restoredCount - 1);
+        }
+      } else if (elementName === 'flowers') {
+        const f1 = document.querySelector('#flower-1 circle');
+        const f2 = document.querySelector('#flower-2 circle');
+        const f3 = document.querySelector('#flower-3 circle');
+        if (!flowersColored) {
+          f1.setAttribute('fill', '#FF4081');
+          f2.setAttribute('fill', '#FFD23F');
+          f3.setAttribute('fill', '#C77DFF');
+          flowersColored = true;
+          restoredCount = Math.min(6, restoredCount + 1);
+          createSplatters(clickX, clickY, ['#FF4081', '#FFD23F', '#C77DFF', '#4CD964']);
+        } else {
+          f1.setAttribute('fill', '#C8C8D4');
+          f2.setAttribute('fill', '#C8C8D4');
+          f3.setAttribute('fill', '#C8C8D4');
+          flowersColored = false;
+          restoredCount = Math.max(3, restoredCount - 1);
+        }
+      }
+
+      updateHUD();
+    }
+
+    function updateHUD() {
+      const fill = document.getElementById('progress-bar-fill');
+      const text = document.getElementById('progress-text');
+      const pct = Math.round((restoredCount / totalTargets) * 100);
+      
+      fill.style.width = `${pct}%`;
+      text.innerText = `${restoredCount}/${totalTargets}`;
+
+      if (restoredCount === 6) {
+        // Grand celebration sound
+        setTimeout(() => playPopSound(880, 'sine'), 150);
+        setTimeout(() => playPopSound(1046, 'sine'), 300);
+      }
+    }
+  </script>
+
+
+</body></html>
