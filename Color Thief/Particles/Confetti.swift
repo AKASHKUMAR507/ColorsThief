@@ -2,6 +2,7 @@ import SpriteKit
 
 /// Full-screen celebration confetti (spec: SKEmitterNode). One emitter per colour so
 /// the pieces stay candy-bright instead of blending; each emits along the top edge.
+/// NOTE: SpriteKit hit-tests emitters like any node, so keep interactive nodes at a higher zPosition.
 enum Confetti {
     
     private static let pieceTexture: SKTexture = {

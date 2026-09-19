@@ -86,7 +86,7 @@ struct PrivacyPolicyView: View {
 enum PrivacyPolicyText {
     
     // TODO: fill these in before submission
-    static let publisher    = "[Your name / studio]"
+    static let publisher    = "[Akash Kumar]"
     static let supportEmail = AppConfig.supportEmail
     
     static let summary = "Color Thief does not collect, store, or share any personal information — from children or adults. There are no accounts, no ads, no analytics, and no tracking. Everything the game remembers stays on your device."

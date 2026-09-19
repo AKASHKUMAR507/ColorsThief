@@ -9,5 +9,5 @@ enum AppConfig {
     static let websiteURL       = URL(string: "https://akashkumar507.github.io/ColorsThief/")!
     
     /// TODO: replace with the real support address (also update it on the privacy page).
-    static let supportEmail     = "support@example.com"
+    static let supportEmail     = "akashkumar32755@example.com"
 }

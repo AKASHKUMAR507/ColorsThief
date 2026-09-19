@@ -126,7 +126,7 @@ class LevelCompleteScene: SKScene {
         let home = ChunkyButton(size: CGSize(width: 56, height: 56), style: circle,
                                 icon: SKSpriteNode.symbol("house.fill", pointSize: 22, color: .darkNavy))
         home.position  = CGPoint(x: 16 + 28, y: y)
-        home.zPosition = 20
+        home.zPosition = 40   // above the confetti (30) so taps reach it
         home.onTap = { [weak self] in self?.go(HomeScene(size: self!.size)) }
         addChild(home)
         
@@ -135,12 +135,12 @@ class LevelCompleteScene: SKScene {
                                      icon: dot(.grassGreen), iconGap: 8)
         levelPill.isUserInteractionEnabled = false
         levelPill.position  = CGPoint(x: frame.midX, y: y)
-        levelPill.zPosition = 20
+        levelPill.zPosition = 40
         addChild(levelPill)
         
         let sound = ChunkyButton(size: CGSize(width: 56, height: 56), style: circle, icon: soundIcon())
         sound.position  = CGPoint(x: W - 16 - 28, y: y)
-        sound.zPosition = 20
+        sound.zPosition = 40
         sound.onTap = { [weak self] in
             guard let self else { return }
             PlayerStats.musicEnabled.toggle()
@@ -157,7 +157,7 @@ class LevelCompleteScene: SKScene {
         let replay = ChunkyButton(size: CGSize(width: 56, height: 56), style: circle,
                                   icon: SKSpriteNode.symbol("arrow.counterclockwise", pointSize: 22, color: .darkNavy))
         replay.position  = CGPoint(x: W * 0.28, y: y)
-        replay.zPosition = 20
+        replay.zPosition = 40
         replay.onTap = { [weak self] in
             guard let self else { return }
             self.go(GameScene(size: self.size, level: self.level))
@@ -170,7 +170,7 @@ class LevelCompleteScene: SKScene {
         let dots = ChunkyButton(size: CGSize(width: dotsW, height: 46), style: .white)
         dots.isUserInteractionEnabled = false
         dots.position  = CGPoint(x: W * 0.62, y: y)
-        dots.zPosition = 20
+        dots.zPosition = 40
         addChild(dots)
         for (i, l) in levels.enumerated() {
             let done = LevelProgressStore.isCompleted(l.id)
@@ -189,7 +189,7 @@ class LevelCompleteScene: SKScene {
     private func setupCard(center: CGPoint, size: CGSize) {
         let card = StickerCard(size: size, cornerRadius: 40, shadowOffset: 8)
         card.position  = center
-        card.zPosition = 10
+        card.zPosition = 35   // above the confetti (30) so KEEP PLAYING gets taps
         card.setScale(0.6)
         card.alpha = 0
         addChild(card)
@@ -201,7 +201,7 @@ class LevelCompleteScene: SKScene {
         // Mascot peeking over the top edge
         let mascot = LandscapeArt.mascot(height: 440, cheering: true)
         mascot.position  = CGPoint(x: center.x, y: center.y + size.height / 2 + 26)
-        mascot.zPosition = 12
+        mascot.zPosition = 37
         mascot.setScale(0)
         addChild(mascot)
         mascot.run(SKAction.sequence([
@@ -292,7 +292,7 @@ class LevelCompleteScene: SKScene {
     private func starSparkle(at point: CGPoint) {
         let burst = TapSparkle.burst(color: .sunshineYellow)
         burst.position  = point
-        burst.zPosition = 15
+        burst.zPosition = 38
         addChild(burst)
         HapticManager.tap()
         SoundManager.shared.playTap()
