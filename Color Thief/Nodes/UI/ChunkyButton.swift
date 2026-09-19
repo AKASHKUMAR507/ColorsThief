@@ -136,6 +136,21 @@ class ChunkyButton: SKNode {
     
     // MARK: - Press feedback
     
+    /// For containers that route touches themselves (e.g. a scrolling grid).
+    func setPressed(_ pressed: Bool) {
+        pressed ? pressDown() : release()
+    }
+    
+    /// Pop + fire `onTap`, as a real touch would.
+    func performTap() {
+        SoundManager.shared.playTap()
+        let pop = SKAction.sequence([
+            SKAction.scale(to: 1.06, duration: 0.08),
+            SKAction.scale(to: 1.00, duration: 0.08)
+        ])
+        run(pop) { [weak self] in self?.onTap?() }
+    }
+    
     private func pressDown() {
         content.removeAllActions()
         let drop = SKAction.moveTo(y: -(style.lipHeight - 2), duration: 0.06)

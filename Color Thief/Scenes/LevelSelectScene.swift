@@ -7,10 +7,15 @@ class LevelSelectScene: SKScene {
     private let levels = LevelData.all
     private let columns = 3
     
-    // Grid scrolling (only kicks in when the grid is taller than its viewport)
+    // Grid scrolling. Cards don't handle their own touches; the scene decides
+    // whether a gesture is a tap (fires the card) or a drag (scrolls the grid).
     private let gridContainer = SKNode()
     private var scrollRange: CGFloat = 0
     private var lastTouchY: CGFloat?
+    private var touchStart: CGPoint?
+    private var pressedCard: LevelCard?
+    private var isDragging = false
+    private let dragThreshold: CGFloat = 8
     
     override func didMove(to view: SKView) {
         backgroundColor = .warmCream
@@ -64,16 +69,20 @@ class LevelSelectScene: SKScene {
         addChild(back)
         
         // Title
-        let chapter = LabelFactory.body("CHAPTER 1", size: 13, color: UIColor.darkNavy.withAlphaComponent(0.6))
+        let chapter = LabelFactory.body("\(LevelData.worldNames.count) WORLDS · \(levels.count) LEVELS", size: 13,
+                                        color: UIColor.darkNavy.withAlphaComponent(0.6))
         chapter.position  = CGPoint(x: frame.midX, y: y + 18)
         chapter.zPosition = 10
         addChild(chapter)
         
-        let title = LabelFactory.title("WORLD", size: AppFonts.Size.title + 2,
-                                       fill: .darkNavy, stroke: .darkNavy,
-                                       shadowColor: .sunshineYellow, shadowOffset: 3)
+        // Clean navy wordmark with a crisp yellow drop shadow (no outline — it bloats the letters)
+        let titleShadow = LabelFactory.body("WORLDS", font: AppFonts.headline, size: AppFonts.Size.title, color: .sunshineYellow)
+        titleShadow.position  = CGPoint(x: frame.midX + 3, y: y - 15)
+        titleShadow.zPosition = 10
+        addChild(titleShadow)
+        let title = LabelFactory.body("WORLDS", font: AppFonts.headline, size: AppFonts.Size.title, color: .darkNavy)
         title.position  = CGPoint(x: frame.midX, y: y - 12)
-        title.zPosition = 10
+        title.zPosition = 11
         addChild(title)
         
         // Star counter
@@ -119,8 +128,7 @@ class LevelSelectScene: SKScene {
         addChild(crop)
         crop.addChild(gridContainer)
         
-        // Content is laid out from `top` downward; if it overflows, allow dragging up.
-        scrollRange = max(0, gridH + 16 - viewportH)
+        // Content is laid out from `top` downward; if it overflows, dragging scrolls it.
         let firstRowY = top - side / 2 - 8
         
         // Positions in snake order so the dotted path flows 1→2→3↓6←5←4
@@ -145,16 +153,23 @@ class LevelSelectScene: SKScene {
         dashed.zPosition   = 0
         gridContainer.addChild(dashed)
         
-        // Cards
+        // Cards (touches handled by the scene so drags can scroll)
         for (i, level) in levels.enumerated() {
             let state = LevelProgressStore.state(for: level)
             let card  = LevelCard(level: level, state: state, size: side)
             card.position  = centres[i]
             card.zPosition = 1
+            card.isUserInteractionEnabled = false
             card.onTap = { [weak self] in
                 if state == .premium { self?.showPaywall() } else { self?.play(level) }
             }
             gridContainer.addChild(card)
+        }
+        
+        // Content bottom for scrolling = last row bottom + padding
+        if let lastY = centres.last?.y {
+            let contentBottom = lastY - side / 2 - 24
+            scrollRange = max(0, bottom - contentBottom)
         }
         return bottom
     }
@@ -263,21 +278,57 @@ class LevelSelectScene: SKScene {
         }
     }
     
-    // MARK: - Scrolling
+    // MARK: - Touches (tap a card, or drag to scroll)
+    
+    private func card(at scenePoint: CGPoint) -> LevelCard? {
+        for node in nodes(at: scenePoint) {
+            var current: SKNode? = node
+            while let n = current, !(n is LevelCard) { current = n.parent }
+            if let card = current as? LevelCard, card.state != .locked { return card }
+        }
+        return nil
+    }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        lastTouchY = touches.first?.location(in: self).y
+        guard let t = touches.first else { return }
+        let p = t.location(in: self)
+        touchStart = p
+        lastTouchY = p.y
+        isDragging = false
+        pressedCard = card(at: p)
+        pressedCard?.setPressed(true)
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        guard scrollRange > 0, let t = touches.first, let last = lastTouchY else { return }
-        let y = t.location(in: self).y
-        gridContainer.position.y = min(scrollRange, max(0, gridContainer.position.y + (y - last)))
-        lastTouchY = y
+        guard let t = touches.first, let start = touchStart, let last = lastTouchY else { return }
+        let p = t.location(in: self)
+        if !isDragging, hypot(p.x - start.x, p.y - start.y) > dragThreshold {
+            isDragging = true
+            pressedCard?.setPressed(false)
+            pressedCard = nil
+        }
+        if isDragging, scrollRange > 0 {
+            gridContainer.position.y = min(scrollRange, max(0, gridContainer.position.y + (p.y - last)))
+        }
+        lastTouchY = p.y
     }
     
-    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) { lastTouchY = nil }
-    override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) { lastTouchY = nil }
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        if !isDragging, let card = pressedCard {
+            card.setPressed(false)
+            card.performTap()
+        }
+        pressedCard = nil
+        touchStart = nil
+        lastTouchY = nil
+    }
+    
+    override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
+        pressedCard?.setPressed(false)
+        pressedCard = nil
+        touchStart = nil
+        lastTouchY = nil
+    }
     
     // MARK: - Navigation
     

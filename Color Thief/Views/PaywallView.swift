@@ -92,7 +92,7 @@ struct PaywallView: View {
             
             Spacer(minLength: 20)
             
-            Text("Levels 1–3 are always free.")
+            Text("Levels 1–\(LevelData.freeLevelCount) are always free.")
                 .font(AppFont.body(13)).foregroundColor(.inkMuted)
                 .padding(.bottom, 10)
         }

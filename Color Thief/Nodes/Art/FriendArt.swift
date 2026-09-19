@@ -39,6 +39,13 @@ enum FriendArt {
         case "pig":       return pig
         case "fish":      return fish
         case "boat":      return boat
+        case "mushroom":  return mushroom
+        case "chick":     return chick
+        case "whale":     return whale
+        case "sun":       return sun
+        case "balloon":   return balloon
+        case "ladybug":   return ladybug
+        case "rocket":    return rocket
         default:          return butterfly
         }
     }
@@ -196,6 +203,131 @@ enum FriendArt {
         faces: [(CGPoint(x: 0, y: -56), 22, true)]
     )
     
+
+    /// Forest / Garden — cap and stem; spots are fixed.
+    static let mushroom = Friend(
+        name: "Mushroom Friend", box: 230,
+        regions: [
+            FriendRegion(name: "stem", path: roundedRect(0, -48, 84, 112, 30), z: -1),
+            FriendRegion(name: "cap",  path: ellipse(0, 42, 186, 116))
+        ],
+        parts: [
+            FriendPart(path: circle(-50, 50, 16), fill: .white, lineWidth: 3, z: 1),
+            FriendPart(path: circle(20, 66, 13), fill: .white, lineWidth: 3, z: 1),
+            FriendPart(path: circle(62, 34, 11), fill: .white, lineWidth: 3, z: 1),
+            FriendPart(path: circle(-14, 22, 9), fill: .white, lineWidth: 3, z: 1)
+        ],
+        faces: [(CGPoint(x: 0, y: -52), 24, true)]
+    )
+    
+    /// Farm — body, wing and feet; beak and eye are fixed.
+    static let chick = Friend(
+        name: "Chick Friend", box: 230,
+        regions: [
+            FriendRegion(name: "foot-l", path: roundedRect(-28, -92, 34, 16, 8), z: -1),
+            FriendRegion(name: "foot-r", path: roundedRect( 28, -92, 34, 16, 8), z: -1),
+            FriendRegion(name: "body",   path: ellipse(0, -8, 150, 140)),
+            FriendRegion(name: "wing",   path: ellipse(-50, -18, 56, 36, rotation: 0.5), z: 1),
+            FriendRegion(name: "tuft",   path: ellipse(4, 72, 34, 26, rotation: 0.4), z: -1)
+        ],
+        parts: [
+            FriendPart(path: polygon([(36, 4), (68, 14), (36, 26)]), fill: .coralRed, z: 2)
+        ],
+        faces: [],
+        inkLines: [(line([(-24, -84), (-24, -66)]), 4), (line([(24, -84), (24, -66)]), 4)],
+        inkDots: [(CGPoint(x: 22, y: 24), 7, .darkNavy), (CGPoint(x: 42, y: -8), 8, UIColor.coralRed.withAlphaComponent(0.6))]
+    )
+    
+    /// Ocean — body, tail, fin and spout.
+    static let whale = Friend(
+        name: "Whale Friend", box: 250,
+        regions: [
+            FriendRegion(name: "tail",  path: polygon([(68, -6), (120, 36), (122, -34)]), z: -1),
+            FriendRegion(name: "fin",   path: ellipse(-6, -50, 66, 30, rotation: -0.25), z: 1),
+            FriendRegion(name: "body",  path: ellipse(-12, -8, 184, 112)),
+            FriendRegion(name: "spout", path: circle(-40, 84, 24))
+        ],
+        parts: [
+            FriendPart(path: circle(-58, 60, 7), fill: .skyBlue, lineWidth: 2.5, z: -1),
+            FriendPart(path: circle(-22, 60, 7), fill: .skyBlue, lineWidth: 2.5, z: -1),
+            FriendPart(path: ellipse(-12, -40, 150, 40), fill: UIColor.white.withAlphaComponent(0.35), stroke: .clear, z: 1)
+        ],
+        faces: [],
+        inkLines: [(smile(-48, -14, 16), 3.5), (line([(-40, 48), (-40, 60)]), 3)],
+        inkDots: [(CGPoint(x: -66, y: 10), 8, .darkNavy), (CGPoint(x: -84, y: -14), 8, UIColor.coralRed.withAlphaComponent(0.6))]
+    )
+    
+    /// Sky — core plus eight rays.
+    static let sun: Friend = {
+        var regions: [FriendRegion] = []
+        for i in 0..<8 {
+            let a = CGFloat(i) / 8 * .pi * 2
+            let tip = CGPoint(x: cos(a) * 112, y: sin(a) * 112)
+            let baseAngle = a + .pi / 2
+            let b1 = CGPoint(x: cos(a) * 66 + cos(baseAngle) * 16, y: sin(a) * 66 + sin(baseAngle) * 16)
+            let b2 = CGPoint(x: cos(a) * 66 - cos(baseAngle) * 16, y: sin(a) * 66 - sin(baseAngle) * 16)
+            regions.append(FriendRegion(name: "ray-\(i)", path: polygon([(b1.x, b1.y), (tip.x, tip.y), (b2.x, b2.y)]), z: -1))
+        }
+        regions.append(FriendRegion(name: "core", path: circle(0, 0, 64)))
+        return Friend(name: "Sunny Friend", box: 240, regions: regions, parts: [],
+                      faces: [(CGPoint(x: 0, y: 0), 64, true)])
+    }()
+    
+    /// Sky — envelope, basket and two clouds.
+    static let balloon = Friend(
+        name: "Balloon Friend", box: 240,
+        regions: [
+            FriendRegion(name: "cloud-l",  path: circle(-88, 78, 22), z: -2),
+            FriendRegion(name: "cloud-r",  path: circle(90, -20, 18), z: -2),
+            FriendRegion(name: "envelope", path: ellipse(0, 40, 140, 160)),
+            FriendRegion(name: "basket",   path: roundedRect(0, -84, 58, 40, 10))
+        ],
+        parts: [
+            FriendPart(path: ellipse(0, 40, 46, 160), fill: UIColor.white.withAlphaComponent(0.35), stroke: .clear, z: 1)
+        ],
+        faces: [(CGPoint(x: 0, y: 46), 32, true)],
+        inkLines: [(line([(-28, -34), (-20, -64)]), 3.5), (line([(28, -34), (20, -64)]), 3.5)]
+    )
+    
+    /// Garden — two wings and a head; spots and legs are fixed.
+    static let ladybug = Friend(
+        name: "Ladybug Friend", box: 230,
+        regions: [
+            FriendRegion(name: "wing-l", path: ellipse(-38, -14, 84, 124)),
+            FriendRegion(name: "wing-r", path: ellipse( 38, -14, 84, 124)),
+            FriendRegion(name: "head",   path: circle(0, 58, 40), z: 1)
+        ],
+        parts: [
+            FriendPart(path: circle(-44, 4, 14), fill: .darkNavy, stroke: .clear, z: 1),
+            FriendPart(path: circle( 44, 4, 14), fill: .darkNavy, stroke: .clear, z: 1),
+            FriendPart(path: circle(-30, -48, 10), fill: .darkNavy, stroke: .clear, z: 1),
+            FriendPart(path: circle( 30, -48, 10), fill: .darkNavy, stroke: .clear, z: 1)
+        ],
+        faces: [(CGPoint(x: 0, y: 56), 30, true)],
+        inkLines: [(line([(0, 20), (0, -74)]), 3.5),
+                   (line([(-14, 92), (-26, 112)]), 3.5), (line([(14, 92), (26, 112)]), 3.5),
+                   (line([(-76, -30), (-100, -42)]), 4), (line([(76, -30), (100, -42)]), 4),
+                   (line([(-70, -60), (-92, -80)]), 4), (line([(70, -60), (92, -80)]), 4)],
+        inkDots: [(CGPoint(x: -28, y: 114), 5, .coralRed), (CGPoint(x: 28, y: 114), 5, .coralRed)]
+    )
+    
+    /// Sky — body, nose cone, two fins and a porthole; flame is fixed.
+    static let rocket = Friend(
+        name: "Rocket Friend", box: 250,
+        regions: [
+            FriendRegion(name: "fin-l",  path: polygon([(-40, -36), (-78, -92), (-40, -78)]), z: -1),
+            FriendRegion(name: "fin-r",  path: polygon([( 40, -36), ( 78, -92), ( 40, -78)]), z: -1),
+            FriendRegion(name: "body",   path: roundedRect(0, 8, 82, 176, 40)),
+            FriendRegion(name: "nose",   path: polygon([(-41, 88), (0, 136), (41, 88)])),
+            FriendRegion(name: "window", path: circle(0, 40, 24), z: 1)
+        ],
+        parts: [
+            FriendPart(path: ellipse(0, -102, 44, 54), fill: .coralRed, z: -2),
+            FriendPart(path: ellipse(0, -96, 22, 32), fill: .sunshineYellow, z: -2)
+        ],
+        faces: [(CGPoint(x: 0, y: 40), 19, false)]
+    )
+
     private static func smile(_ cx: CGFloat, _ cy: CGFloat, _ r: CGFloat) -> CGPath {
         let p = CGMutablePath()
         p.addArc(center: CGPoint(x: cx, y: cy), radius: r, startAngle: .pi * 1.15, endAngle: .pi * 1.85, clockwise: false)

@@ -14,7 +14,9 @@ struct Level {
         case "Forest": return .grassGreen
         case "Farm":   return .sunshineYellow
         case "Ocean":  return .skyBlue
-        default:       return .lavender
+        case "Sky":    return .lavender
+        case "Garden": return .hotPink
+        default:       return .coralRed
         }
     }
 }

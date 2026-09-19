@@ -27,10 +27,14 @@ struct ParentZoneView: View {
                 
                 VStack(spacing: 16) {
                     HStack(spacing: 14) {
-                        IconTile(systemName: hasFullGame ? "star.fill" : "lock.open.fill", tint: Color(uiColor: UIColor(hex: "#FFF3B0")))
+                        IconTile(systemName: LevelData.everythingIsFree || hasFullGame ? "star.fill" : "lock.open.fill",
+                                 tint: Color(uiColor: UIColor(hex: "#FFF3B0")))
                         VStack(alignment: .leading, spacing: 3) {
                             Text("Full Game").font(AppFont.headline(21)).foregroundColor(.darkNavy)
-                            Text(hasFullGame ? "All worlds unlocked — thank you!" : "Levels 1–3 are free. Unlock all \(LevelData.all.count) levels.")
+                            Text(LevelData.everythingIsFree
+                                 ? "All \(LevelData.all.count) levels in \(LevelData.worldNames.count) worlds are free. Enjoy!"
+                                 : (hasFullGame ? "All worlds unlocked — thank you!"
+                                                : "Levels 1–\(LevelData.freeLevelCount) are free. Unlock all \(LevelData.all.count) levels."))
                                 .font(AppFont.body(14)).foregroundColor(.inkMuted)
                                 .fixedSize(horizontal: false, vertical: true)
                         }
@@ -39,32 +43,34 @@ struct ParentZoneView: View {
                     .padding(18)
                     .stickerCard(cornerRadius: 30)
                     
-                    Button {
-                        Task { await store.purchaseFullGame() }
-                    } label: {
-                        HStack(spacing: 10) {
-                            if store.isBusy { ProgressView().tint(.darkNavy) }
-                            Text(hasFullGame ? "UNLOCKED" : "UNLOCK FULL GAME · \(store.displayPrice)")
-                                .font(AppFont.headline(19)).foregroundColor(.darkNavy)
-                        }
-                        .frame(maxWidth: .infinity)
-                    }
-                    .buttonStyle(ChunkyButtonStyle(fill: .sunshineYellow, lip: Color(uiColor: UIColor.sunshineYellow.darkened()), minHeight: 60))
-                    .disabled(hasFullGame || store.isBusy)
-                    .opacity(hasFullGame ? 0.6 : 1)
-                    
-                    Button {
-                        Task { await store.restorePurchases() }
-                    } label: {
-                        Text("Restore Purchases").font(AppFont.body(16)).foregroundColor(.darkNavy)
+                    if !LevelData.everythingIsFree {
+                        Button {
+                            Task { await store.purchaseFullGame() }
+                        } label: {
+                            HStack(spacing: 10) {
+                                if store.isBusy { ProgressView().tint(.darkNavy) }
+                                Text(hasFullGame ? "UNLOCKED" : "UNLOCK FULL GAME · \(store.displayPrice)")
+                                    .font(AppFont.headline(19)).foregroundColor(.darkNavy)
+                            }
                             .frame(maxWidth: .infinity)
-                    }
-                    .buttonStyle(ChunkyButtonStyle(fill: .white, lipHeight: 5, minHeight: 50))
-                    .disabled(store.isBusy)
-                    
-                    if let error = store.lastError {
-                        Text(error).font(AppFont.body(13)).foregroundColor(.coralRed)
-                            .multilineTextAlignment(.center)
+                        }
+                        .buttonStyle(ChunkyButtonStyle(fill: .sunshineYellow, lip: Color(uiColor: UIColor.sunshineYellow.darkened()), minHeight: 60))
+                        .disabled(hasFullGame || store.isBusy)
+                        .opacity(hasFullGame ? 0.6 : 1)
+                        
+                        Button {
+                            Task { await store.restorePurchases() }
+                        } label: {
+                            Text("Restore Purchases").font(AppFont.body(16)).foregroundColor(.darkNavy)
+                                .frame(maxWidth: .infinity)
+                        }
+                        .buttonStyle(ChunkyButtonStyle(fill: .white, lipHeight: 5, minHeight: 50))
+                        .disabled(store.isBusy)
+                        
+                        if let error = store.lastError {
+                            Text(error).font(AppFont.body(13)).foregroundColor(.coralRed)
+                                .multilineTextAlignment(.center)
+                        }
                     }
                     
                     Button { showPrivacy = true } label: {

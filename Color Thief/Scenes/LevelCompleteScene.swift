@@ -164,8 +164,8 @@ class LevelCompleteScene: SKScene {
         }
         addChild(replay)
         
-        // Level dots: one per level, filled for completed ones
-        let levels = LevelData.all
+        // Level dots: this world's levels, filled for completed ones
+        let levels = LevelData.levels(inWorld: level.worldName)
         let dotsW = CGFloat(levels.count) * 22 + 28
         let dots = ChunkyButton(size: CGSize(width: dotsW, height: 46), style: .white)
         dots.isUserInteractionEnabled = false
