@@ -14,7 +14,7 @@ Levels 1–3 free; finishing level 3 (or tapping a premium card) shows the paywa
 
 ## Before App Store submission
 - **App Store Connect:** create non-consumable `com.akash.colorthief.fullgame` ("Full Game", $1.99 tier).
-- **Privacy policy:** replace `AppConfig.privacyPolicyURL` (currently `example.com`) — required for the Kids category.
+- **Privacy policy:** live at https://akashkumar507.github.io/ColorsThief/privacy.html (source `docs/privacy.html`, GitHub Pages). Same text is shown in-app via `PrivacyPolicyView`. Fill in the name/email placeholders in both.
 - **Audio:** `Color Thief/Audio/*` are synthesised placeholders; drop in licensed files with the same names
   (`tap.caf`, `fanfare.m4a`, `music_loop.caf`).
 - **Art:** friends (`Nodes/Art/FriendArt.swift`) and landscapes (`Nodes/Art/LandscapeArt.swift`) are vector
