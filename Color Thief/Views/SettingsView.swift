@@ -154,6 +154,16 @@ struct SettingsView: View {
             
             Text("MADE WITH JOY & CARE FOR LITTLE ARTISTS")
                 .font(AppFont.body(12)).tracking(0.5).foregroundColor(.inkMuted)
+            
+            Link(destination: AppConfig.websiteURL) {
+                HStack(spacing: 6) {
+                    Image(systemName: "safari.fill").font(.system(size: 12, weight: .bold))
+                    Text(AppConfig.websiteURL.host ?? "Website").font(AppFont.body(13))
+                }
+                .foregroundColor(.darkNavy)
+                .padding(.horizontal, 14).padding(.vertical, 8)
+                .background(Capsule().fill(Color.white).overlay(Capsule().stroke(Color.darkNavy, lineWidth: 2)))
+            }
         }
     }
 }

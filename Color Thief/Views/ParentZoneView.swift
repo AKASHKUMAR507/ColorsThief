@@ -77,6 +77,17 @@ struct ParentZoneView: View {
                     }
                     .buttonStyle(ChunkyButtonStyle(fill: .white, lipHeight: 5, minHeight: 50))
                     .padding(.top, 8)
+                    
+                    Link(destination: AppConfig.websiteURL) {
+                        HStack(spacing: 8) {
+                            Image(systemName: "safari.fill").font(.system(size: 14, weight: .bold))
+                            Text("Visit Website").font(AppFont.body(16))
+                            Image(systemName: "arrow.up.right").font(.system(size: 11, weight: .heavy)).opacity(0.6)
+                        }
+                        .foregroundColor(.darkNavy)
+                        .frame(maxWidth: .infinity)
+                    }
+                    .buttonStyle(ChunkyButtonStyle(fill: .white, lipHeight: 5, minHeight: 50))
                 }
                 .padding(.horizontal, 20).padding(.top, 24)
                 
